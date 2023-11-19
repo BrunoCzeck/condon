@@ -24,9 +24,9 @@ function Home() {
     const data = { senha, email };
     getData(data)
       .then((response) => {
-        setUsers(response.data.data);
+        setUsers(response.data);
         setLoggedIn(true);
-        localStorage.setItem('loggedInUser', JSON.stringify(response.data.data));
+        localStorage.setItem('loggedInUser', JSON.stringify(response.data));
       })
       .catch((error) => {
         console.error('Ocorreu um erro ao enviar os dados:', error);
