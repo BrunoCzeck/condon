@@ -34,19 +34,20 @@ function Home() {
       });
   };
 
-  const handleLogout = () => {
+   const handleLogout = () => {
     localStorage.removeItem('loggedInUser');
     setLoggedIn(false);
     setUsers(null);
-  };
+  }; 
 
   return (
     <div>
       {loggedIn ? (
         <div>
-          <h1>Logado como {users && users.usuario} </h1>
-          <button onClick={handleLogout}>Sair</button>
-            {users.priority === "2" ? <Navbar /> : <NavbarNoPriority />}
+          <h1>Logado como {users && users.data.usuario} </h1>
+          <button onClick={handleLogout}>Sair</button> {/* Utilizando o componente LogoutButton */}
+            {users.data.priority == "2" ? <Navbar /> : <NavbarNoPriority />}
+            {console.log(users.data.priority)}
         </div>
       ) : (
         <div>
