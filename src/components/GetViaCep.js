@@ -1,8 +1,7 @@
 import axios from 'axios';
-const getUser = (id) => {
-const url = `http://127.0.0.1:3333/api/v1/users/${id}`;
+const getAddress = (cep) => {
 
-return axios.get(url, {
+  return axios.get(`https://brasilapi.com.br/api/cep/v2/${cep}`,{
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
@@ -10,4 +9,4 @@ return axios.get(url, {
   });
 };
 
-export default getUser;
+export default getAddress;

@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import getUsers from '../../components/GetUsers';
-import deleteUser from '../../components/DeleteUser';
-import getUser from '../../components/GetUser';
+import getDataEnterprise from '../../components/GetEnterprises';
 import { Link } from 'react-router-dom';
 
 
-function GetUsers() {
+function Company() {
   const [error, setError] = useState('');
   const [enterpriseOptions, setEnterpriseOptions] = useState([]); // Inicializando como uma array vazia
 
   useEffect(() => {
     const fetchEnterpriseData = () => {
-      getUsers()
+      getDataEnterprise()
       .then((response) => {
         setEnterpriseOptions(response.data.data);
       })
@@ -24,9 +22,11 @@ function GetUsers() {
     fetchEnterpriseData();
   }, []);
 
-
-
   return (
+    <>
+    <Link to='/company/create'>
+      <button>Criar Condominio</button>
+    </Link> 
     <div>
     <h2>Listagem de Empresas</h2>
     <ul>
@@ -34,29 +34,17 @@ function GetUsers() {
         <>
         <br/>
         <li>
-          Nome: {enterprise.usuario}
+          Nome: {enterprise.name}
         </li>
         <li>
-          Apartamento: {enterprise.apartament}
+          Endereço: {enterprise.address}{', '}{enterprise.number}{' - '}{enterprise.city}{', '}{enterprise.state}
         </li>
-        <li>
-          Bloco: {enterprise.bloc}
-        </li>
-        <li>
-          E-mail: {enterprise.email}
-        </li>
-        <li>
-          Tipo de Usuário: {enterprise.priority === "2" ? "Administrador" : "Usuário"}
-        </li>
-          <Link to={`/edituser/${enterprise.id}`}>
-        <button onClick={() => getUser(enterprise.id)}>Editar</button>
-         </Link>
-        <button onClick={() => deleteUser(enterprise.id)}>Deletar</button>
         </>
       ))}
     </ul>
   </div>
+  </>
   );
 }
 
-export default GetUsers;
+export default Company;

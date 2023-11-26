@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import sendUserData from '../../components/FormPostApi';
 import Notification from '../../components/Notification';
-import getDataEnterprise from '../../components/GetEnterprise';
+import getDataEnterprise from '../../components/GetEnterprises';
 
 function FormUsers() {
   const [usuario, setUsuario] = useState('');

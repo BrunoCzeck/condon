@@ -1,8 +1,7 @@
 import axios from 'axios';
-const getUser = (id) => {
-const url = `http://127.0.0.1:3333/api/v1/users/${id}`;
+const getDataEnterprise = (data) => {
 
-return axios.get(url, {
+  return axios.get('http://127.0.0.1:3333/api/v1/enterprise', data, {
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
@@ -10,4 +9,4 @@ return axios.get(url, {
   });
 };
 
-export default getUser;
+export default getDataEnterprise;
