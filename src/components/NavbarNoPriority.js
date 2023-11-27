@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 function NavbarNoPriority() {
@@ -6,7 +6,7 @@ function NavbarNoPriority() {
     <nav>
       <ul>
       <li>
-          <Link to="/contato">Avisos</Link>
+          <Link to="/posts">Mural</Link>
         </li>
         <li>
           <Link to="/contato">Chat Portaria</Link>

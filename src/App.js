@@ -8,7 +8,7 @@ import GetUsers from './pages/UsersAdmin';
 import EditUser from './pages/EditUser';
 import Company from './pages/Company';
 import CompanyCreate from './pages/CompanyCreate';
-import Posts from './pages/Posts';
+import Posts from './pages/Avisos'
 
 function App() {
   return (

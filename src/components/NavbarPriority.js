@@ -9,7 +9,7 @@ const Navbar = () => {
           <Link to="/users">Usuário</Link>
         </li>
         <li>
-          <Link to="/posts">Avisos</Link>
+          <Link to="/posts">Mural</Link>
         </li>
         <li>
           <Link to="/contato">Chat Portaria</Link>

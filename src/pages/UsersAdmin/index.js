@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import getUsers from '../../components/GetUsers';
 import deleteUser from '../../components/DeleteUser';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button } from 'react-bootstrap';
+
 import getUser from '../../components/GetUser';
 import { Link } from 'react-router-dom';
 
@@ -24,10 +27,14 @@ function GetUsers() {
     fetchEnterpriseData();
   }, []);
 
-
+  const handleGoBack = () => {
+    // Voltar para a página anterior no histórico do navegador
+    window.history.back();
+  };
 
   return (
     <div>
+    <Button onClick={handleGoBack}>Voltar</Button>
     <h2>Listagem de Empresas</h2>
     <ul>
       {enterpriseOptions.map((enterprise) => (
