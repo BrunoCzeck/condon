@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import getUser from '../../components/GetUser';
 import putData from '../../components/PutUsers';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button } from 'react-bootstrap';
 
 function EditUser() {
   const { id } = useParams();
@@ -46,9 +48,15 @@ function EditUser() {
       });
   };
 
+  const handleGoBack = () => {
+    // Voltar para a página anterior no histórico do navegador
+    window.history.back();
+  };
+
   return (
     <div>
       <h1>Editar Usuário</h1>
+      <Button onClick={handleGoBack}>Voltar</Button>
       {user && (
         <form onSubmit={handleSubmit}>
           <label>Usuario:</label>
@@ -63,7 +71,7 @@ function EditUser() {
           <label>Tipo de Usuário:</label>
           <input type="text" name="priority" value={priority} onChange={(e) => setPriority(e.target.value)} />
           <br />
-          <button type="submit">Salvar</button>
+          <Button type="submit">Salvar</Button>
         </form>
       )}
     </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import getData from '../../components/FormPostApiValidate';
-import Navbar from '../../components/NavbarPriority';
+import NavbarPriority from '../../components/NavbarPriority';
 import NavbarNoPriority from '../../components/NavbarNoPriority';
 import { Link } from 'react-router-dom';
 import getEnterprise from '../../components/GetEnterprise';
@@ -72,7 +72,7 @@ function Home() {
           <h1>Logado como {users && users.data.usuario} </h1>
           <h1>Condominio: {nome} </h1>
           <button onClick={handleLogout}>Sair</button> {/* Utilizando o componente LogoutButton */}
-            {users.data.priority === "2" ? <Navbar /> : <NavbarNoPriority />}
+            {users.data.priority === "2" ? <NavbarPriority /> : <NavbarNoPriority />}
         </div>
       ) : (
         <div>

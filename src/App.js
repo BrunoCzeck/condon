@@ -7,8 +7,8 @@ import FormUsers from './pages/FormUsers';
 import GetUsers from './pages/UsersAdmin';
 import EditUser from './pages/EditUser';
 import Company from './pages/Company';
-import CompanyCreate from './pages/CompanyCreate';
 import Posts from './pages/Avisos'
+import Scheduler from './pages/Scheduler'
 
 function App() {
   return (
@@ -22,8 +22,8 @@ function App() {
           <Route path="/users" element={<GetUsers />} />
           <Route path="/edituser/:id" element={<EditUser />} />
           <Route path="/company" element={<Company />} />
-          <Route path="/company/create" element={<CompanyCreate />} />
           <Route path="/posts" element={<Posts />} />
+          <Route path="/scheduler" element={<Scheduler />} />
         </Routes>
       </div>
     </Router>
