@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import getUsers from '../../components/GetUsers';
-import deleteUser from '../../components/DeleteUser';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
-import getUser from '../../components/GetUser';
 import { Link } from 'react-router-dom';
-import ListGroup from 'react-bootstrap/ListGroup';
-import NavbarPriority from '../../components/NavbarPriority';
+import getUser from '../../components/services/api-users/GetUser';
+import getUsers from '../../components/services/api-users/GetUsers';
+import deleteUser from '../../components/services/api-users/DeleteUser';
+import NavbarPriority from '../../components/NavBar/NavBarPriority';
+import * as S from './UserTableStyles'
+import { Container, Logo, DivButton } from './UserTableStyles' 
+import editUser from '../../img/edit.svg';
+import deletUser from '../../img/delet.svg';
 
 function GetUsers() {
   const [error, setError] = useState('');
@@ -23,38 +24,55 @@ function GetUsers() {
           console.error('Ocorreu um erro ao enviar os dados:', error);
         });
     };
-
     fetchEnterpriseData();
   }, []);
 
-  const handleGoBack = () => {
-    window.history.back();
+  const handleDeleteUser = (userId) => {
+    const confirmDelete = window.confirm('Tem certeza que deseja deletar este usuário?');
+
+    if (confirmDelete) {
+      // Chama a função passando o id e deletando o usuário
+      deleteUser(userId);
+    }
   };
 
-  return (
-    <div>
-      <h2>Listagem de Usuario</h2>
-      <NavbarPriority />
-      <div className="d-flex">
-        {enterpriseOptions.map((enterprise) => (
-          <div key={enterprise.id}>
-            <ListGroup>
-              <ListGroup.Item>Nome: {enterprise.usuario}</ListGroup.Item>
-              <ListGroup.Item>Apartamento: {enterprise.apartament}</ListGroup.Item>
-              <ListGroup.Item>Bloco: {enterprise.bloc}</ListGroup.Item>
-              <ListGroup.Item>E-mail: {enterprise.email}</ListGroup.Item>
-              <ListGroup.Item>Tipo de Usuário: {enterprise.priority === "2" ? "Administrador" : "Usuário"}</ListGroup.Item>
-            </ListGroup>
-            <Link to={`/edituser/${enterprise.id}`}>
-              <Button variant="secondary" onClick={() => getUser(enterprise.id)} className="btn btn-primary ml-2">Editar</Button>
-            </Link>
-            <Button variant="danger" onClick={() => deleteUser(enterprise.id)}>Deletar</Button>
-          </div>
-        ))}
-      </div>
-      <Button onClick={handleGoBack} className="btn btn-primary mt-3 mr-3">Voltar</Button>
-    </div>
+return (
+  <Container>
+  <NavbarPriority />
+        <S.Table>
+          <S.Tablethead>
+            <tr>
+              <S.TableHeader>Nome</S.TableHeader>
+              <S.TableHeader>Apartamento</S.TableHeader>
+              <S.TableHeader>Bloco</S.TableHeader>
+              <S.TableHeader>E-mail</S.TableHeader>
+              <S.TableHeader>Tipo de Usuário</S.TableHeader>
+              <S.TableHeader>Ações</S.TableHeader>
+            </tr>
+          </S.Tablethead>
+          <tbody>
+            {enterpriseOptions.map((enterprise) => (
+              <S.TableTr key={enterprise.id}>
+                <S.TableCell>{enterprise.usuario}</S.TableCell>
+                <S.TableCell>{enterprise.apartament}</S.TableCell>
+                <S.TableCell>{enterprise.bloc}</S.TableCell>
+                <S.TableCell>{enterprise.email}</S.TableCell>
+                <S.TableCell>{enterprise.priority === "2" ? "Administrador" : "Usuário"}</S.TableCell>
+                <DivButton>
+                  <Link to={`/edituser/${enterprise.id}`}>
+                    <S.ButtonEdit onClick={() => getUser(enterprise.id)}>
+                      <Logo src={editUser} alt="Editar"/>
+                    </S.ButtonEdit>
+                  </Link>
+                  <S.ButtonDelete onClick={() => handleDeleteUser(enterprise.id)}>
+                    <Logo src={deletUser} alt="Deletar" />
+                  </S.ButtonDelete>
+                </DivButton>
+              </S.TableTr>
+            ))}
+          </tbody>
+        </S.Table>
+  </Container>
   );
 }
-
 export default GetUsers;

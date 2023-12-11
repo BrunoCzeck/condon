@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import getData from '../../components/FormPostApiValidate';
-import NavbarPriority from '../../components/NavbarPriority';
-import NavbarNoPriority from '../../components/NavbarNoPriority';
+import getData from '../../components/services/api-users/AuthenticationUser';
+import NavbarPriority from '../../components/NavBar/NavBarPriority';
+import NavbarNoPriority from '../../components/NavBar/NavBarNoPriority';
 import { Link } from 'react-router-dom';
-import getEnterprise from '../../components/GetEnterprise';
+import getEnterprise from '../../components/services/api-enterprise/GetEnterprise';
+import PageError from '../../pages/Error';
+import {Container, Form, FormInput, Button, LoginFormContainer, NavBar, Text, Img, Linked} from './HomeStyle'
+import { StyledLink } from './HomeStyle'; // Importe o componente StyledLink do arquivo separado
+import homeIcon from '../../img/2.svg';
 
 function Home() {
   const [email, setEmail] = useState('');
@@ -20,7 +24,6 @@ function Home() {
       try {
         const response = await getEnterprise(users.data.id_enterprise); 
         const userData = response;
-        // Preenchendo os campos de input com os valores do usuário
         setName(userData.data.data[0].name);
       } catch (error) {
         // Tratamento de erro
@@ -29,8 +32,6 @@ function Home() {
 
     fetchUserData();
   }, [enterprise]);
-
-  /* Chama o localStorage pra guardar as informações no navegador e não perder ao navegar entre as paginas */
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser');
@@ -56,41 +57,39 @@ function Home() {
         setError('Usuário não encontrado');
       });
   };
-
-   const handleLogout = () => {
-    localStorage.removeItem('loggedInUser');
-    setLoggedIn(false);
-    setUsers(null);
-    setUser(null);
-
-  }; 
   
-  return (
-    <div>
+return (
+    <>
       {loggedIn ? (
-        <div>
-          <h1>Logado como {users && users.data.usuario} </h1>
-          <h1>Condominio: {nome} </h1>
-          <button onClick={handleLogout}>Sair</button> {/* Utilizando o componente LogoutButton */}
-            {users.data.priority === "2" ? <NavbarPriority /> : <NavbarNoPriority />}
-        </div>
+        <NavBar>
+          {users.data.priority === '2' ? <NavbarPriority /> : <NavbarNoPriority />}
+        </NavBar>
       ) : (
-        <div>
-          <form onSubmit={handleSubmit}>
-            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <br />
-            <input type="password" value={senha} onChange={(e) => setSenha(e.target.value)} />
-            <br />
-            <button type="submit">Enviar</button>
-            <li>
-              <Link to="/form">Cadastro de Usuário</Link>
-            </li>
-          </form>
+        <Container>
+        <LoginFormContainer>
+        <Img src={homeIcon} alt="Home" />
+        <Text>Condon</Text>
+          <Form onSubmit={handleSubmit}>
+            <FormInput
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+            />
+            <FormInput
+              type="password"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              placeholder="Senha"
+            />
+            <Button type="submit">Acessar</Button>
+            <Linked><StyledLink to="/form">Cadastro de Usuário</StyledLink></Linked>
+          </Form>
           <p>{error}</p>
-        </div>
+        </LoginFormContainer>
+        </Container>
       )}
-    </div>
+      </>
   );
 }
-
 export default Home;

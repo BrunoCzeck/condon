@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import getUser from '../../components/GetUser';
-import putData from '../../components/PutUsers';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
+import getUser from '../../components/services/api-users/GetUser';
+import putData from '../../components/services/api-users/PutUsers';
+import {Container, Form, FormInput, Button, CustomLabel, CustomSubLabel, Img, Text, ContainerButton, ContainerImagem } from './EditStyle'
+import homeIcon from '../../img/2.svg';
 
 function EditUser() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
-/*   const [result, setResult] = useState(null);
- */  const [usuario, setUsuario] = useState('');
+  const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
   const [email, setEmail] = useState('');
   const [priority, setPriority] = useState('');
@@ -54,27 +53,53 @@ function EditUser() {
   };
 
   return (
-    <div>
-      <h1>Editar Usuário</h1>
-      <Button onClick={handleGoBack}>Voltar</Button>
-      {user && (
-        <form onSubmit={handleSubmit}>
-          <label>Usuario:</label>
-          <input type="text" name="usuario" value={usuario} onChange={(e) => setUsuario(e.target.value)} />
-          <br />
-          <label>Senha:</label>
-          <input type="text" name="senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
-          <br />
-          <label>Email:</label>
-          <input type="text" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <br />
-          <label>Tipo de Usuário:</label>
-          <input type="text" name="priority" value={priority} onChange={(e) => setPriority(e.target.value)} />
-          <br />
-          <Button type="submit">Salvar</Button>
-        </form>
-      )}
-    </div>
+    <>
+    <Button onClick={handleGoBack}>Voltar</Button>
+      <Container>
+        {user && (
+          <Form onSubmit={handleSubmit}>
+            <ContainerImagem>
+            <Img src={homeIcon} alt="Home" />
+            <Text>Condon</Text>
+            </ContainerImagem>
+            <CustomLabel>Usuario</CustomLabel>
+            <FormInput 
+            placeholder="Usuário"
+            type="text" 
+            name="usuario" 
+            value={usuario} 
+            onChange={(e) => setUsuario(e.target.value)} 
+            />
+            <CustomLabel>Senha</CustomLabel>
+            <FormInput 
+            placeholder="Senha" 
+            type="text" name="senha"
+            value={senha} 
+            onChange={(e) => setSenha(e.target.value)} 
+            />
+            <CustomLabel>E-mail</CustomLabel>
+            <FormInput 
+            placeholder="E-mail" 
+            type="text"
+            name="email"
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            />
+            <CustomLabel>Tipo de Usuário</CustomLabel>
+            <CustomSubLabel>Informar 1 para usuários moradores, visitantes e 2 para usuário Administrador</CustomSubLabel>
+            <FormInput
+            placeholder="Tipo de Usuário"
+            type="text" name="priority"
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)} 
+            />
+            <ContainerButton>
+            <Button type="submit">Alterar</Button>
+            </ContainerButton>
+          </Form>
+        )}
+      </Container>
+    </>
   );
 }
 

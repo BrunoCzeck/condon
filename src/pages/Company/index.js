@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import getDataEnterprise from '../../components/GetEnterprises';
+import getDataEnterprise from '../../components/services/api-enterprise/GetEnterprises';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import sendUserDataEnterprise from '../../components/FormEnterprise';
-import getAddress from '../../components/GetViaCep';
+import sendUserDataEnterprise from '../../components/services/api-enterprise/PostEnterprise';
+import getAddress from '../../components/services/api-cep/GetViaCep';
 import Table from 'react-bootstrap/Table';
 
 function Company() {
@@ -132,14 +132,14 @@ function Company() {
               <Form.Label>Estado</Form.Label>
               <Form.Control type="text" value={state} onChange={(e) => setState(e.target.value)} placeholder='Estado' />
             </Form.Group>
-              <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Fechar
-              </Button>
-              <Button variant="primary" type="submit" onClick={handleClose}>
-                Enviar
-              </Button>
-              </Modal.Footer>    
+            <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Fechar
+            </Button>
+            <Button variant="primary" type="submit" onClick={handleClose}>
+              Enviar
+            </Button>
+            </Modal.Footer>    
             </Form>              
         </Modal.Body>
       </Modal>
@@ -163,6 +163,12 @@ function Company() {
           <td>{enterprise.number}</td>
           <td>{enterprise.city}</td>
           <td>{enterprise.state}</td>
+          <Button variant="primary">
+            Visualizar
+          </Button>
+          <Button variant="primary">
+            Editar
+          </Button>
         </tr>
       </tbody>
       </>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Modal, Form } from 'react-bootstrap';
-import getAvisos from '../../components/GetAvisos';
-import { Link } from 'react-router-dom';
-import sendPosts from '../../components/FormPostsCreate'
+import { Modal, Form } from 'react-bootstrap';
+import getAvisos from '../../components/services/api-mural/GetAvisos';
+import sendPosts from '../../components/services/api-mural/PostMural'
 import Row from 'react-bootstrap/Row';
+import {CardContainer, CardTitle, CardText, Button, Container} from './AvisoStyle'
 
 const Posts = () => {
   const [enterpriseOptions, setAvisos] = useState([]); // Inicializando como uma array vazia
@@ -70,61 +70,58 @@ const Posts = () => {
   };
 
   return (
-      <div>
-      <h1>Mural</h1>
+      <Container>
       <Button onClick={handleGoBack}>Voltar</Button>
       {priority === "2" ? <Button onClick={handleCreatePostClick}>Criar Post</Button> : ''}
       
       <Row xs={1} md={2} className="g-6">
       {enterpriseOptions.map((option, index) => (
-        <Card key={index} style={{ width: '18rem', margin: '1rem 0' }}>
-          <Card.Body>
-            <Card.Title>{option.title}</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-            <Card.Text>
+          <CardContainer>
+            <CardTitle>{option.title}</CardTitle>
+            <Card.Subtitle className="mb-2 text-muted">Descrição</Card.Subtitle>
+            <CardText>
               {option.description}
-            </Card.Text>
-          </Card.Body>
-        </Card>
+            </CardText>
+          </CardContainer>
       ))}
 
       {/* Modal para criar post */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Criar Post</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {/* Aqui você pode adicionar o formulário ou o conteúdo para criar o post */}
-          <Form.Group controlId="formPostDescription">
-              <Form.Label>Titulo</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={1}
-                placeholder="Digite o titulo"
-                type="text" name="title" value={title} onChange={(e) => setTitle(e.target.value)}
-              />
-            </Form.Group>
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Criar Post</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {/* Aqui você pode adicionar o formulário ou o conteúdo para criar o post */}
             <Form.Group controlId="formPostDescription">
-              <Form.Label>Descrição</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="Digite a descrição do post"
-                type="text" name="description" value={description} onChange={(e) => setDescription(e.target.value)}
-              />
-            </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Fechar
-          </Button>
-          <Button variant="primary" onClick={handleCreatePost}>
-            Criar
-          </Button>
-        </Modal.Footer>
-      </Modal>
+                <Form.Label>Titulo</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={1}
+                  placeholder="Digite o titulo"
+                  type="text" name="title" value={title} onChange={(e) => setTitle(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="formPostDescription">
+                <Form.Label>Descrição</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Digite a descrição do post"
+                  type="text" name="description" value={description} onChange={(e) => setDescription(e.target.value)}
+                />
+              </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Fechar
+            </Button>
+            <Button variant="primary" onClick={handleCreatePost}>
+              Criar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Row>
-    </div>
+    </Container>
   );
 };
 
