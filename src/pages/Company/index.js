@@ -11,7 +11,6 @@ function Company() {
   const [error, setError] = useState('');
   const [enterpriseOptions, setEnterpriseOptions] = useState([]); // Inicializando como uma array vazia
   const [show, setShow] = useState(false);
-
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
@@ -91,12 +90,10 @@ function Company() {
       <Button variant="primary" onClick={handleShow}>
         Criar Condominio
       </Button>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Formulário no Modal</Modal.Title>
         </Modal.Header>
-
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">

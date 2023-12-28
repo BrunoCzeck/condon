@@ -74,3 +74,9 @@ export const Logo = styled.img`
   height: auto;
 `;
 
+export const DividerLine = styled.hr`
+  border: none;
+  height: 5px;
+  background-color: #000;
+  width: 300px;
+`;

@@ -10,6 +10,8 @@ import Company from './pages/Company';
 import Posts from './pages/Avisos';
 import Scheduler from './pages/Scheduler';
 import PageError from './pages/Error';
+import Settings from './pages/Settings';
+
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
           <Route path="/posts" element={<Posts />} />
           <Route path="/scheduler" element={<Scheduler />} />
           <Route path="/error" element={<PageError />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>
     </Router>

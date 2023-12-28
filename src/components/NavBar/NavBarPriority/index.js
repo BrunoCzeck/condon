@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import homeIcon from '../../../img/2.svg'; // Certifique-se de que o caminho do arquivo SVG está correto
-
+import homeIcon from '../../../img/2.svg'; 
 import {
   StyledNavbar,
   Logo,
@@ -12,7 +11,7 @@ import {
   NavTexto,
   DividerLine,
 } from './NavBarPriorityStyle'; 
-import { StyledLink } from './NavBarPriorityStyle'; // Importe o componente StyledLink do arquivo separado
+import { StyledLink } from './NavBarPriorityStyle'; 
 
 const NavbarPriority = () => {
 
@@ -53,11 +52,6 @@ const NavbarPriority = () => {
         </NavLinkItem>
         <NavLinkItem>
           <StyledLink to="/#">
-            <NavLink>Chat Sindicio</NavLink>
-          </StyledLink>
-        </NavLinkItem>
-        <NavLinkItem>
-          <StyledLink to="/#">
             <NavLink>Boletos</NavLink>
           </StyledLink>
         </NavLinkItem>
@@ -69,6 +63,11 @@ const NavbarPriority = () => {
         <NavLinkItem>
           <StyledLink to="/#">
             <NavLink>Votação</NavLink>
+          </StyledLink>
+        </NavLinkItem>
+        <NavLinkItem>
+          <StyledLink to="/settings">
+            <NavLink>Configurações</NavLink>
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>

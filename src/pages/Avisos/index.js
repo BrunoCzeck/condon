@@ -5,7 +5,10 @@ import { Modal, Form } from 'react-bootstrap';
 import getAvisos from '../../components/services/api-mural/GetAvisos';
 import sendPosts from '../../components/services/api-mural/PostMural'
 import Row from 'react-bootstrap/Row';
-import {CardContainer, CardTitle, CardText, Button, Container} from './AvisoStyle'
+import {CardContainer, CardTitle, CardText, Button, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
+import NavbarPriority from '../../components/NavBar/NavBarPriority';
+import NavBarNoPriority from '../../components/NavBar/NavBarNoPriority';
+import postSvg from '../../img/8.svg';
 
 const Posts = () => {
   const [enterpriseOptions, setAvisos] = useState([]); // Inicializando como uma array vazia
@@ -70,11 +73,9 @@ const Posts = () => {
   };
 
   return (
-      <Container>
-      <Button onClick={handleGoBack}>Voltar</Button>
-      {priority === "2" ? <Button onClick={handleCreatePostClick}>Criar Post</Button> : ''}
-      
-      <Row xs={1} md={2} className="g-6">
+    <Container className="d-flex p-0">
+      {priority === "2" ? <NavbarPriority/> : <NavBarNoPriority/>}
+      <Row className="d-flex g-0 p-4">
       {enterpriseOptions.map((option, index) => (
           <CardContainer>
             <CardTitle>{option.title}</CardTitle>
@@ -112,15 +113,20 @@ const Posts = () => {
               </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
+            <ButtonModal variant="secondary" onClick={() => setShowModal(false)}>
               Fechar
-            </Button>
-            <Button variant="primary" onClick={handleCreatePost}>
+            </ButtonModal>
+            <ButtonModal variant="primary" onClick={handleCreatePost}>
               Criar
-            </Button>
+            </ButtonModal>
           </Modal.Footer>
         </Modal>
       </Row>
+      {priority === "2" ?
+      <Button onClick={handleCreatePostClick}>
+        <Logo src={postSvg} alt="Adicionar Novo Post"/>
+      </Button> : ''}
+      {/* {priority === "2" ? <Button onClick={handleCreatePostClick}>Criar Post</Button> : ''} */}
     </Container>
   );
 };
