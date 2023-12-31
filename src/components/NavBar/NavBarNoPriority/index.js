@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import homeIcon from '../../../img/2.svg'; // Certifique-se de que o caminho do arquivo SVG está correto
-
+import homeIcon from '../../../img/2.svg';
 import {
   StyledNavbar,
   Logo,
@@ -10,9 +8,10 @@ import {
   NavLinkItem,
   NavLink,
   NavTexto,
-  DividerLine,
-} from './NavBarNoPriorityStyle'; 
-import { StyledLink } from './NavBarNoPriorityStyle'; // Importe o componente StyledLink do arquivo separado
+  DividerLine
+  } from './NavBarNoPriorityStyle'; 
+import { StyledLink } from './NavBarNoPriorityStyle';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const NavbarNoPriority = () => {
 
@@ -32,6 +31,11 @@ const NavbarNoPriority = () => {
           <DividerLine/>
         </NavLinkItem>
         <NavLinkItem>
+          <StyledLink to="/">
+            <NavLink>Perfil</NavLink>
+          </StyledLink>
+        </NavLinkItem>
+        <NavLinkItem>
           <StyledLink to="/posts">
             <NavLink>Mural</NavLink>
           </StyledLink>
@@ -42,17 +46,27 @@ const NavbarNoPriority = () => {
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/scheduler">
-            <NavLink>Agendamentos</NavLink>
+        <Dropdown>
+          <Dropdown.Toggle style={{
+            backgroundColor: 'transparent',
+            borderColor: 'transparent',
+            color: 'white'}} 
+            id="dropdown-basic">
+            Agendamentos
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item href="/scheduler">Agendar</Dropdown.Item>
+            <Dropdown.Item href="/history">Historico</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        </NavLinkItem>
+        <NavLinkItem>
+          <StyledLink to="/">
+            <NavLink>Assembleia</NavLink>
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/#">
-            <NavLink>Boletos</NavLink>
-          </StyledLink>
-        </NavLinkItem>
-        <NavLinkItem>
-          <StyledLink to="/#">
+          <StyledLink to="/">
             <NavLink>Correspondencia</NavLink>
           </StyledLink>
         </NavLinkItem>

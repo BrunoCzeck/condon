@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import homeIcon from '../../../img/2.svg'; 
-import {
-  StyledNavbar,
+import { 
+  StyledNavbar, 
   Logo,
   LogoImagem,
   NavLinks,
   NavLinkItem,
   NavLink,
   NavTexto,
-  DividerLine,
-} from './NavBarPriorityStyle'; 
-import { StyledLink } from './NavBarPriorityStyle'; 
+  DividerLine
+  } from './NavBarPriorityStyle'; 
+import { StyledLink } from './NavBarPriorityStyle';
 
 const NavbarPriority = () => {
 
@@ -32,7 +31,7 @@ const NavbarPriority = () => {
         </NavLinkItem>
         <NavLinkItem>
           <StyledLink to="/users">
-            <NavLink>Usuário</NavLink>
+            <NavLink>Usuários</NavLink>
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
@@ -46,18 +45,13 @@ const NavbarPriority = () => {
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/scheduler">
-            <NavLink>Agendamentos</NavLink>
+          <StyledLink to="/">
+            <NavLink>Assembleia</NavLink>
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/#">
-            <NavLink>Boletos</NavLink>
-          </StyledLink>
-        </NavLinkItem>
-        <NavLinkItem>
-          <StyledLink to="/#">
-            <NavLink>Correspondencia</NavLink>
+          <StyledLink to="/">
+            <NavLink>Correspondecia</NavLink>
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>

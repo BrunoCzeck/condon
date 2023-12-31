@@ -5,6 +5,9 @@ import {Form, InputGroup } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import sendScheduler from '../../components/services/api-scheduler/PostScheduler';
 import editUser from '../../img/edit.svg';
+import { Link } from 'react-router-dom';
+import getSchedulerEnterprise from '../../components/services/api-scheduler/GetSchedulerEnterprise';
+
 
 function PageScheduler() {
   const [error, setError] = useState('');
@@ -137,9 +140,11 @@ return (
               <TableTd>{scheduler.type}</TableTd>
               <TableTd>{scheduler.hours.hours[0] + ' As ' + scheduler.hours.hours[scheduler.hours.hours.length - 1]}</TableTd>
               <TableTd>
-              <ButtonEdit onClick={handleShow}>
+              <Link to={`/edit_scheduler/${scheduler.id_scheduler}`}> 
+              <ButtonEdit  onClick={() => getSchedulerEnterprise(scheduler.id_scheduler)}>
                 <Logo src={editUser} alt="Editar"/>
               </ButtonEdit>
+              </Link>
               </TableTd>
              {/*  <Button variant="primary" onClick={handleShow}>Cadastrar Espaço</Button> */}
             </TableTr>

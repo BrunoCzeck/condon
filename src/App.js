@@ -11,6 +11,9 @@ import Posts from './pages/Avisos';
 import Scheduler from './pages/Scheduler';
 import PageError from './pages/Error';
 import Settings from './pages/Settings';
+import EditScheduler from './pages/EditScheduler';
+import History from './pages/History';
+
 
 
 function App() {
@@ -29,6 +32,9 @@ function App() {
           <Route path="/scheduler" element={<Scheduler />} />
           <Route path="/error" element={<PageError />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/edit_scheduler/:id" element={<EditScheduler />} />
+          <Route path="/history" element={<History />} />
+
         </Routes>
       </div>
     </Router>
