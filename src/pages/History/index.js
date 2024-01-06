@@ -62,19 +62,19 @@ return (
           <tbody>
             {scheduler.map((scheduler) => (
               <S.TableTr key={scheduler.user_id}>
-                <S.TableCell style={{ backgroundColor: scheduler.status === 'Cancelado' ? '#CCC' : 'inherit' }}>{scheduler.name}</S.TableCell>        
+                <S.TableCell style={{ backgroundColor: scheduler.status === 'Cancelado' ? '#CCC' : 'inherit' }}>{scheduler.nome}</S.TableCell>        
                 <S.TableCell style={{ backgroundColor: scheduler.status === 'Cancelado' ? '#CCC' : 'inherit' }}>{scheduler.apartament}</S.TableCell>
                 <S.TableCell style={{ backgroundColor: scheduler.status === 'Cancelado' ? '#CCC' : 'inherit' }}>{scheduler.bloc}</S.TableCell>
                 <S.TableCell style={{ backgroundColor: scheduler.status === 'Cancelado' ? '#CCC' : 'inherit' }}>{scheduler.date_reserve}</S.TableCell>
                 <S.TableCell style={{ backgroundColor: scheduler.status === 'Cancelado' ? '#CCC' : 'inherit' }}>{scheduler.space}</S.TableCell>
                 <S.TableCell style={{ backgroundColor: scheduler.status === 'Cancelado' ? '#CCC' : 'inherit' }}>{scheduler.status}</S.TableCell>
                 <S.TableCell style={{ backgroundColor: scheduler.status === 'Cancelado' ? '#CCC' : 'inherit' }}>
-                <S.ButtonDelete  
-                disabled={scheduler.status === 'Cancelado'} 
-                onClick={() => handleCanceled(scheduler.id_scheduler)}
-                >
-                  Cancelar
-                </S.ButtonDelete>
+                  <S.ButtonDelete  
+                  disabled={scheduler.status === 'Cancelado'} 
+                  onClick={() => handleCanceled(scheduler.id_scheduler)}
+                  >
+                    Cancelar
+                  </S.ButtonDelete>
                 </S.TableCell>
               </S.TableTr>
             ))}

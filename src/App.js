@@ -13,6 +13,7 @@ import PageError from './pages/Error';
 import Settings from './pages/Settings';
 import EditScheduler from './pages/EditScheduler';
 import History from './pages/History';
+import SchedulerType from './pages/SchedulerType';
 
 
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/company" element={<Company />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/scheduler" element={<Scheduler />} />
+          <Route path="/scheduler/:id" element={<SchedulerType />} />
           <Route path="/error" element={<PageError />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/edit_scheduler/:id" element={<EditScheduler />} />

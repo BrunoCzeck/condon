@@ -47,6 +47,7 @@ function FormUsers() {
         console.error('Ocorreu um erro ao enviar os dados:', error);
       });
   };
+  
   const handleGoBack = () => {
     // Voltar para a página anterior no histórico do navegador
     window.history.back();
