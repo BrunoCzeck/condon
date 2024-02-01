@@ -17,13 +17,13 @@ export const TableWrapper = styled.div`
 
 export const Table = styled.table`
   border-collapse: collapse;
-  width: 100%;
-  height: fit-content;
-  margin: 10px;
+  width: 95%;
+  border: 1px solid #dddddd;
+  margin: 20px;
+
 `;
 
-export const TableHeader = styled.th`
-  background-color: #6500b1;
+export const TableTh = styled.th`
   border: 1px solid #dddddd;
   text-align: center;
   padding: 8px;
@@ -31,15 +31,24 @@ export const TableHeader = styled.th`
 
 export const Tablethead = styled.thead`
   color:white;
+  border: 1px solid #dddddd;
+`;
+export const Tabletbody = styled.tbody`
+  color:white;
+  border: 1px solid #dddddd;
 `;
 
 export const TableTr = styled.tr`
   color:black;
+  border: 1px solid #dddddd;
+
 `;
 
-export const TableCell = styled.td`
+export const TableTd = styled.td`
   text-align: center;
   padding: 8px;
+  border: 1px solid #dddddd;
+
 `;
 
 export const ButtonEdit = styled.button`
@@ -47,9 +56,9 @@ export const ButtonEdit = styled.button`
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 8px 16px;
+  padding: 8px 10px;
   cursor: pointer;
-  margin-right: 5px;
+  margin: 5px;
 `;
 
 export const ButtonDelete = styled.button`
@@ -81,6 +90,52 @@ export const DividerLine = styled.hr`
   width: 300px;
 `;
 
-export const Div = styled.div`
-  display: block;
+export const Button = styled.button`
+  padding: 10px 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 15px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 `;
+
+export const Body = styled.body`
+  width: 100%;
+  text-align: center;
+`;
+
+export const Header = styled.div`
+  display: block;
+  text-align: center;
+`;
+
+export const H1 = styled.h1`
+  margin-top: 10px;
+  font-size: 35px;
+`;
+
+
+export const ButtonModal = styled.button`
+  padding: 10px 30px;
+  height: 45px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 15px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+

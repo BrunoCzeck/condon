@@ -50,7 +50,7 @@ const NavbarPriority = () => {
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/">
+          <StyledLink to="/correspondence">
             <NavLink>Correspondecia</NavLink>
           </StyledLink>
         </NavLinkItem>

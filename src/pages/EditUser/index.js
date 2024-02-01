@@ -86,7 +86,7 @@ function EditUser() {
             onChange={(e) => setEmail(e.target.value)} 
             />
             <CustomLabel>Tipo de Usuário</CustomLabel>
-            <CustomSubLabel>Informar 1 para usuários moradores, visitantes e 2 para usuário Administrador</CustomSubLabel>
+            <CustomSubLabel>Informar 1 para Usuários, Moradores, Visitantes, Etc... Informe 2 para usuário Administrador</CustomSubLabel>
             <FormInput
             placeholder="Tipo de Usuário"
             type="text" name="priority"

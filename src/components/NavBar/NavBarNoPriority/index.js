@@ -31,7 +31,7 @@ const NavbarNoPriority = () => {
           <DividerLine/>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/">
+          <StyledLink to="/perfil">
             <NavLink>Perfil</NavLink>
           </StyledLink>
         </NavLinkItem>
@@ -66,7 +66,7 @@ const NavbarNoPriority = () => {
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/">
+          <StyledLink to="/list/correspondence">
             <NavLink>Correspondencia</NavLink>
           </StyledLink>
         </NavLinkItem>

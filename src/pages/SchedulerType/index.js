@@ -1,9 +1,9 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import NavbarNoPriority from '../../components/NavBar/NavBarNoPriority';
-import { CenteredCalendar, DateDisplay, Container, StyledCalendar, CustomLabel, FormInput,CustomSelect, CustomOption, Form, Button } from './SchedulerStyle';
+import { CenteredCalendar, DateDisplay, Container, StyledCalendar, CustomLabel, FormInput, CustomSelect, CustomOption, Form, Button } from './SchedulerStyle';
 import getAllEnterpriseId from '../../components/services/api-scheduler/GetSchedulerEnterpriseAll';
 import getSchedulerReserve from '../../components/services/api-scheduler/GetSchedulerReserve';
 import getScheduler from '../../components/services/api-scheduler/GetScheduler';
@@ -22,19 +22,18 @@ const formatDate = (date) => {
 const SchedulerType = () => {
   const { id } = useParams();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [enterpriseOptions, setEnterpriseOptions] = useState([]); // Inicializando como uma array vazia
-  const [type, setType] = useState([]); // Inicializando como uma array vazia
+  const [enterpriseOptions, setEnterpriseOptions] = useState([]);
+  const [type, setType] = useState([]);
   const [idEnterprise, setEnterprise] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userId, setUserId] = useState('')
-  const [nome, setNome] = useState('')
-  const [apartament, setApartament] = useState('')
-  const [bloc, setBloc] = useState('')
+  const [userId, setUserId] = useState('');
+  const [nome, setNome] = useState('');
+  const [apartament, setApartament] = useState('');
+  const [bloc, setBloc] = useState('');
   const [formattedDate, setFormattedDate] = useState('');
   const [schedulerEnterprise, setSchedulerEnterprise] = useState([]);
   const [dateReserveArray, setDateReserveArray] = useState([]);
   const [scheduler_type, setSchedulerType] = useState('');
-
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -57,31 +56,18 @@ const SchedulerType = () => {
     }
   }, []);
 
- /*  useEffect(() => {
-    const fetchEnterpriseData = () => {
-      getScheduler(idEnterprise)
-      .then((response) => {
-        setEnterpriseOptions(response.data.data);
-      })
-      .catch((error) => {
-        console.error('Ocorreu um erro ao enviar os dados:', error);
-      });
-    };
-
-    fetchEnterpriseData();
-  }, [idEnterprise]); */
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const data = { 
-    id_enterprise: idEnterprise,
-    user_id: userId, 
-    nome: nome,
-    apartament: apartament,
-    bloc: bloc,
-    date_reserve: formattedDate,
-    space: scheduler_type };
+    const data = {
+      id_enterprise: idEnterprise,
+      user_id: userId,
+      nome: nome,
+      apartament: apartament,
+      bloc: bloc,
+      date_reserve: formattedDate,
+      space: scheduler_type
+    };
 
     sendScheduler(data)
       .then((response) => {
@@ -91,7 +77,7 @@ const SchedulerType = () => {
         console.error('Ocorreu um erro ao enviar os dados:', error);
       });
   };
-  
+
   useEffect(() => {
     // Recuperar dateReserveArray do localStorage
     const storedDateReserveArray = localStorage.getItem('dateReserveArray');
@@ -117,12 +103,12 @@ const SchedulerType = () => {
     if (idEnterprise) {
       fetchSchedulerReserve();
     }
-  }, [idEnterprise]);
+  }, [idEnterprise, scheduler_type]);
 
   useEffect(() => {
     const fetchSchedulerId = async () => {
       try {
-        const response = await getSchedulerEnterprise(id); 
+        const response = await getSchedulerEnterprise(id);
         const schedulerType = response.data.data[0].type;
         setSchedulerType(schedulerType);
         // Preenchendo os campos de input com os valores do usuário
@@ -135,28 +121,25 @@ const SchedulerType = () => {
   }, [id]);
 
   const isDateReserved = ({ date }) => {
-    // Verifica se a data está no array de datas reservadas
     const formattedDate = formatDate(date);
     return dateReserveArray.includes(formattedDate);
   };
 
   return (
     <Container>
-    <NavbarNoPriority />
+      <NavbarNoPriority />
       <Form onSubmit={handleSubmit}>
         <DateDisplay>
           <CustomLabel>Espaço para Reserva</CustomLabel>
           <StyledCalendar
-          onChange={handleDateChange}
-          value={selectedDate}
-          tileDisabled={isDateReserved}
+            onChange={handleDateChange}
+            value={selectedDate}
+            tileDisabled={isDateReserved}
           />
           <div>Data selecionada: {formattedDate}</div>
-           
           {console.log(dateReserveArray)}
-
         </DateDisplay>
-      <Button type="submit">Cadastrar</Button>
+        <Button type="submit">Cadastrar</Button>
       </Form>
     </Container>
   );

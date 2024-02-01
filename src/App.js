@@ -14,8 +14,9 @@ import Settings from './pages/Settings';
 import EditScheduler from './pages/EditScheduler';
 import History from './pages/History';
 import SchedulerType from './pages/SchedulerType';
-
-
+import Perfil from './pages/Perfil';
+import Correspondence from './pages/Correspondence';
+import CorrespondenceList from './pages/CorrespondenceList';
 
 function App() {
   return (
@@ -36,6 +37,10 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/edit_scheduler/:id" element={<EditScheduler />} />
           <Route path="/history" element={<History />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/correspondence" element={<Correspondence />} />
+          <Route path="/list/correspondence" element={<CorrespondenceList />} />
+
 
         </Routes>
       </div>
