@@ -17,6 +17,8 @@ import SchedulerType from './pages/SchedulerType';
 import Perfil from './pages/Perfil';
 import Correspondence from './pages/Correspondence';
 import CorrespondenceList from './pages/CorrespondenceList';
+import Meeting from './pages/Meeting';
+
 
 function App() {
   return (
@@ -40,6 +42,7 @@ function App() {
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/correspondence" element={<Correspondence />} />
           <Route path="/list/correspondence" element={<CorrespondenceList />} />
+          <Route path="/meeting" element={<Meeting />} />
 
 
         </Routes>

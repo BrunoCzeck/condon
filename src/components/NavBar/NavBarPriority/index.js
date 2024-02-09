@@ -45,7 +45,7 @@ const NavbarPriority = () => {
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/">
+          <StyledLink to="/meeting">
             <NavLink>Assembleia</NavLink>
           </StyledLink>
         </NavLinkItem>

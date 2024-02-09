@@ -7,6 +7,8 @@ import sendScheduler from '../../components/services/api-scheduler/PostScheduler
 import editUser from '../../img/edit.svg';
 import { Link } from 'react-router-dom';
 import getCorrespondenceTypeId from '../../components/services/api-correspondence/api-correspondence-type/GetCorrespondenceIdType';
+import sendDataCorrespondenceType from '../../components/services/api-correspondence/api-correspondence-type/PostCorrespondenceType';
+
 
 
 function PageScheduler() {
@@ -17,7 +19,7 @@ function PageScheduler() {
   const [showModal, setShowModal] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [show, setShow] = useState(false);
-  const [title, setTitle] = useState('');
+  const [nome, setNome] = useState('');
   const [description, setDescription] = useState('');
   
   const handleShow = () => setShow(true);
@@ -52,11 +54,12 @@ function PageScheduler() {
 
 
   // Aqui você pode implementar a lógica para enviar o post, etc.
- /*  const handleCreatePost = (event) => {
+  const handleCreatePost = (event) => {
       event.preventDefault();
   
-      const data = { title, description, user_id:idUsers, id_enterprise:idEnterprise };
-      sendPosts(data)
+      const data = { id_enterprise:idEnterprise, nome: nome };
+
+      sendDataCorrespondenceType(data)
         .then((response) => {
           console.log(response.data);
         })
@@ -66,7 +69,7 @@ function PageScheduler() {
     
     setShowModal(false);
     window.location.reload() // Recarrega a pagina apos o cadastro do posts.
-   }; */
+   };
 
    const handleGoBack = () => {
     // Voltar para a página anterior no histórico do navegador
@@ -82,34 +85,22 @@ return (
         <Button variant="primary" onClick={handleShow}>Cadastrar Tipo de Pacote</Button>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Criar Post</Modal.Title>
+            <Modal.Title>Cadastrar de Pacote</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {/* Aqui você pode adicionar o formulário ou o conteúdo para criar o post */}
             <Form.Group controlId="formPostDescription">
-                <Form.Label>Titulo</Form.Label>
+                <Form.Label>Tipo do Pacote</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={1}
-                  placeholder="Digite o titulo"
-                  type="text" name="title" value={``} onChange={(e) => setTitle(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group controlId="formPostDescription">
-                <Form.Label>Descrição</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  placeholder="Digite a descrição do post"
-                  type="text" name="description" value={`description`} onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Digite o Tipo do Pacote"
+                  type="text" name="nome" value={nome} onChange={(e) => setNome(e.target.value)}
                 />
               </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <ButtonModal variant="secondary" onClick={() => setShowModal(false)}>
-              Fechar
-            </ButtonModal>
-            <ButtonModal variant="primary" onClick={`handleCreatePost`}>
+            <ButtonModal variant="primary" onClick={handleCreatePost}>
               Criar
             </ButtonModal>
           </Modal.Footer>
