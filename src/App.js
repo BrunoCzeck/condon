@@ -18,6 +18,7 @@ import Perfil from './pages/Perfil';
 import Correspondence from './pages/Correspondence';
 import CorrespondenceList from './pages/CorrespondenceList';
 import Meeting from './pages/Meeting';
+import Chat from './pages/Chat';
 
 
 function App() {
@@ -43,8 +44,8 @@ function App() {
           <Route path="/correspondence" element={<Correspondence />} />
           <Route path="/list/correspondence" element={<CorrespondenceList />} />
           <Route path="/meeting" element={<Meeting />} />
-
-
+          <Route path="/chat" element={<Chat />} />
+          
         </Routes>
       </div>
     </Router>

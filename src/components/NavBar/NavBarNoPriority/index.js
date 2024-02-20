@@ -41,7 +41,7 @@ const NavbarNoPriority = () => {
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/#">
+          <StyledLink to="/chat">
             <NavLink>Chat Portaria</NavLink>
           </StyledLink>
         </NavLinkItem>
