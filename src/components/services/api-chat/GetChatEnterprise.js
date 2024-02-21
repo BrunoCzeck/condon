@@ -1,6 +1,6 @@
 import axios from 'axios';
-const getChatId = (user_id) => {
-const url = `http://127.0.0.1:3333/api/v1/chat/${user_id}`;
+const getChatEnterpriseId = (id_enterprise) => {
+const url = `http://127.0.0.1:3333/api/v1/chat/enterprise/${id_enterprise}`;
 
 return axios.get(url, {
     headers: {
@@ -10,4 +10,4 @@ return axios.get(url, {
   });
 };
 
-export default getChatId;
+export default getChatEnterpriseId;

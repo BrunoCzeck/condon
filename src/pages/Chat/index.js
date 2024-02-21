@@ -5,6 +5,8 @@ import { Modal, Form } from 'react-bootstrap';
 import getCorrespondence from '../../components/services/api-correspondence/GetCorrespondence';
 import getCorrespondenceTypeId from '../../components/services/api-correspondence/api-correspondence-type/GetCorrespondenceIdType';
 import getUserEnterprise from '../../components/services/api-users/GetUserEnterprise';
+import getChatEnterpriseId from '../../components/services/api-chat/GetChatEnterprise';
+
 import sendDataChat from '../../components/services/api-chat/PostChat';
 import Row from 'react-bootstrap/Row';
 import {CardContainer, CardTitle, CardText, Button, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
@@ -19,6 +21,8 @@ const Posts = () => {
   const [correspondence, setCorrespondence] = useState([]); // Inicializando como uma array vazia
   const [idEnterprise, setEnterprise] = useState(null);
   const [users, setUserEnterprise] = useState([]);
+  const [chat, setUsersChatEnterprise] = useState([]);
+
   const [idUsers, setUsers] = useState(null);
   const [description, setDescription] = useState(null);
   const [priority, setPriority] = useState(null);
@@ -42,42 +46,29 @@ const Posts = () => {
   }, []);
 
   useEffect(() => {
-      const fetchCorrespondenceUsers = async () => {
-        try {
-          const response = await getCorrespondence(idEnterprise);
-          setCorrespondence(response.data.data);
-        } catch (error) {
-          console.error('Ocorreu um erro ao enviar os dados:', error);
-        }
-      };
-      fetchCorrespondenceUsers(idEnterprise);
-    }, [idEnterprise]);
+    const fetchUserEnterprise = async () => {
+      try {
+        const response = await getUserEnterprise(idEnterprise);
+        setUserEnterprise(response.data.data);
+      } catch (error) {
+        console.error('Ocorreu um erro ao enviar os dados:', error);
+      }
+    };
+      fetchUserEnterprise(idEnterprise);
+  }, [idEnterprise]);
 
-    useEffect(() => {
-      const fetchUserEnterprise = async () => {
-        try {
-          const response = await getUserEnterprise(idEnterprise);
-          setUserEnterprise(response.data.data);
-        } catch (error) {
-          console.error('Ocorreu um erro ao enviar os dados:', error);
-        }
-      };
-        fetchUserEnterprise(idEnterprise);
-    }, [idEnterprise]);
-
-    useEffect(() => {
-      const fetchCorrespondenceIdType = async () => {
-        try {
-          const response = await getCorrespondenceTypeId(idEnterprise);
-          setCorrespondeTypes(response.data.data);
-        } catch (error) {
-          console.error('Ocorreu um erro ao enviar os dados:', error);
-        }
-      };
-      fetchCorrespondenceIdType(idEnterprise);
-    }, [idEnterprise]);
+  useEffect(() => {
+    const fetchChatUsers = async () => {
+      try {
+        const response = await getChatEnterpriseId(idEnterprise);
+        setUsersChatEnterprise(response.data);
+      } catch (error) {
+        console.error('Ocorreu um erro ao enviar os dados:', error);
+      }
+    };
+      fetchChatUsers(idEnterprise);
+  }, [idEnterprise]);
     
-
 
   const handleCreatePostClick = () => {
     setShowModal(true);
@@ -87,24 +78,19 @@ const Posts = () => {
   const handleCreatePost = (event) => {
       event.preventDefault();
 
-      //const formattedDate = dateCorrespondence ? format(new Date(dateCorrespondence), 'dd/MM/yyyy') : '';
-      
-      const formattedDate = dateCorrespondence
-      ? moment(dateCorrespondence).tz('America/Sao_Paulo').format('DD/MM/YYYY')
-      : '';
-
-
       const data = { 
         user_id:selectedUser.id,
         apartament: selectedUser.apartament,
         usuario: selectedResponsavel,
         bloc: selectedUser.bloc,
         id_enterprise: idEnterprise,
-        "chat": {
-          user_id:selectedUser.id,
-          user_id_send_message: idUsers,
-          description: description
-        }
+        "chat":[
+          {
+            user_id:selectedUser.id,
+            user_id_send_message: idUsers,
+            description: description
+          }
+        ]
       };
       
       sendDataChat(data)
@@ -117,35 +103,32 @@ const Posts = () => {
     
     setShowModal(false);
     //window.location.reload() // Recarrega a pagina apos o cadastro do posts.
-   };
-
-   const handleGoBack = () => {
-    // Voltar para a página anterior no histórico do navegador
-    window.history.back();
   };
 
   return (
+    
     <Container className="d-flex p-0">
-      {priority === "2" ? <NavbarPriority/> : <NavBarNoPriority/>}
-      <Row className="d-flex g-0 p-4">
-      {correspondence.map((option, index) => (
-          <CardContainer>
-            <Card.Subtitle className="mb-2 text-muted">Apartamento: {option.apartament}</Card.Subtitle>
-            <CardTitle>Responsável pela retirada: {option.nome}</CardTitle>
+      {priority === "2" ? <NavbarPriority/> : <NavBarNoPriority/> }
+      <Button onClick={handleCreatePostClick}>
+        <Logo src={postSvg} alt="Adicionar Novo Post"/>
+      </Button> 
+      <Row className="d-flex" style={{ width: '235px' }}>
+      {chat.map((option, index) => (
+        <CardContainer>
+          <Card.Subtitle className="mb-2 text-muted">Apartamento: {option.apartament} Bloco: {option.bloc}</Card.Subtitle>
+          <CardTitle>Morador: {option.usuario}</CardTitle>
             <CardText>
-              Bloco: {option.bloc}
+              {option.description} 
+            {console.log(users)}
             </CardText>
             <CardText>
-              Tipo do Pacote: {option.tipo}
+              {option.date_message} 
             </CardText>
-            <CardText>
-              Data Retirada: {option.date_correspondence}
-              {console.log(users)}
-            </CardText>
-          </CardContainer>
+        </CardContainer>
       ))}
 
       {/* Modal para criar post */}
+      
         <Modal show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title></Modal.Title>
@@ -211,9 +194,6 @@ const Posts = () => {
           </Modal.Footer>
         </Modal>
       </Row>
-      <Button onClick={handleCreatePostClick}>
-        <Logo src={postSvg} alt="Adicionar Novo Post"/>
-      </Button> 
       {/* {priority === "2" ? <Button onClick={handleCreatePostClick}>Criar Post</Button> : ''} */}
     </Container>
   );

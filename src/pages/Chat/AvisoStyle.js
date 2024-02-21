@@ -20,8 +20,7 @@ export const CardContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   height: auto;
-    margin: 10px;
-
+  margin: 10px;
   &:hover {
     transform: translateY(-5px);
   }
@@ -38,8 +37,7 @@ export const CardText = styled.p`
 `;
 
 export const Button = styled.button`
-  padding: 10px 30px;
-  height: 85px;
+  padding: 10px 10px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -47,8 +45,7 @@ export const Button = styled.button`
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin: 15px;
-
+  margin: 25px;
   &:hover {
     background-color: #0056b3;
   }
