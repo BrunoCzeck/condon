@@ -6,23 +6,29 @@ import getCorrespondence from '../../components/services/api-correspondence/GetC
 import getCorrespondenceTypeId from '../../components/services/api-correspondence/api-correspondence-type/GetCorrespondenceIdType';
 import getUserEnterprise from '../../components/services/api-users/GetUserEnterprise';
 import getChatEnterpriseId from '../../components/services/api-chat/GetChatEnterprise';
-
 import sendDataChat from '../../components/services/api-chat/PostChat';
 import Row from 'react-bootstrap/Row';
 import {CardContainer, CardTitle, CardText, Button, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
 import NavbarPriority from '../../components/NavBar/NavBarPriority';
 import NavBarNoPriority from '../../components/NavBar/NavBarNoPriority';
 import postSvg from '../../img/8.svg';
-import { format } from 'date-fns';
-import moment from 'moment-timezone';
+import { Link } from 'react-router-dom';
+import ChatPage from '../Chat_Talk'
 
+const ChatSection = ({ userId }) => {
+  // Lógica do componente de bate-papo
+  return (
+    <div>
+      <h2>Bate-papo com o usuário {userId}</h2>
+      <ChatPage/>
+    </div>
+  );
+};
 
-const Posts = () => {
-  const [correspondence, setCorrespondence] = useState([]); // Inicializando como uma array vazia
+const Chat = () => {
   const [idEnterprise, setEnterprise] = useState(null);
   const [users, setUserEnterprise] = useState([]);
   const [chat, setUsersChatEnterprise] = useState([]);
-
   const [idUsers, setUsers] = useState(null);
   const [description, setDescription] = useState(null);
   const [priority, setPriority] = useState(null);
@@ -30,9 +36,7 @@ const Posts = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [selectedUser, setSelectedUser] = useState({ apartament: '', bloc: '', id: '' });
   const [selectedResponsavel, setSelectedResponsavel] = useState('');
-  const [selectedType, setSelectedType] = useState('');
-  const [correspondenceTypes, setCorrespondeTypes] = useState([]);
-  const [dateCorrespondence, setDateCorrespondence] = useState(''); // Novo estado para armazenar a data da retirada
+  const [selectedChatUser, setSelectedChatUser] = useState(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser');
@@ -54,7 +58,7 @@ const Posts = () => {
         console.error('Ocorreu um erro ao enviar os dados:', error);
       }
     };
-      fetchUserEnterprise(idEnterprise);
+    fetchUserEnterprise(idEnterprise);
   }, [idEnterprise]);
 
   useEffect(() => {
@@ -66,70 +70,71 @@ const Posts = () => {
         console.error('Ocorreu um erro ao enviar os dados:', error);
       }
     };
-      fetchChatUsers(idEnterprise);
+    fetchChatUsers(idEnterprise);
   }, [idEnterprise]);
-    
 
   const handleCreatePostClick = () => {
     setShowModal(true);
   };
 
-  // Aqui você pode implementar a lógica para enviar o post, etc.
-  const handleCreatePost = (event) => {
-      event.preventDefault();
+  const handleCardClick = (userId) => {
+    // Defina o usuário selecionado para abrir o bate-papo
+    setSelectedChatUser(userId);
+  };
 
-      const data = { 
-        user_id:selectedUser.id,
-        apartament: selectedUser.apartament,
-        usuario: selectedResponsavel,
-        bloc: selectedUser.bloc,
-        id_enterprise: idEnterprise,
-        "chat":[
-          {
-            user_id:selectedUser.id,
-            user_id_send_message: idUsers,
-            description: description
-          }
-        ]
-      };
-      
-      sendDataChat(data)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error('Ocorreu um erro ao enviar os dados:', error);
-        });
-    
+  const handleCreatePost = (event) => {
+    event.preventDefault();
+
+    const data = {
+      user_id: selectedUser.id,
+      apartament: selectedUser.apartament,
+      usuario: selectedResponsavel,
+      bloc: selectedUser.bloc,
+      id_enterprise: idEnterprise,
+      chat: [
+        {
+          user_id: selectedUser.id,
+          user_id_send_message: idUsers,
+          description: description,
+        },
+      ],
+    };
+
+    sendDataChat(data)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error('Ocorreu um erro ao enviar os dados:', error);
+      });
+
     setShowModal(false);
-    //window.location.reload() // Recarrega a pagina apos o cadastro do posts.
   };
 
   return (
-    
     <Container className="d-flex p-0">
-      {priority === "2" ? <NavbarPriority/> : <NavBarNoPriority/> }
+      {priority === '2' ? <NavbarPriority /> : <NavBarNoPriority />}
       <Button onClick={handleCreatePostClick}>
-        <Logo src={postSvg} alt="Adicionar Novo Post"/>
-      </Button> 
+        <Logo src={postSvg} alt="Adicionar Novo Post" />
+      </Button>
       <Row className="d-flex" style={{ width: '235px' }}>
-      {chat.map((option, index) => (
-        <CardContainer>
-          <Card.Subtitle className="mb-2 text-muted">Apartamento: {option.apartament} Bloco: {option.bloc}</Card.Subtitle>
-          <CardTitle>Morador: {option.usuario}</CardTitle>
-            <CardText>
-              {option.description} 
-            {console.log(users)}
-            </CardText>
-            <CardText>
-              {option.date_message} 
-            </CardText>
-        </CardContainer>
-      ))}
-
-      {/* Modal para criar post */}
-      
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
+        {chat.map((option, index) => (
+          <div key={index}>
+            <Link onClick={() => handleCardClick(option.user_id)}>
+              <CardContainer>
+                <Card.Subtitle className="mb-2 text-muted">
+                  Apartamento: {option.apartament} Bloco: {option.bloc}
+                </Card.Subtitle>
+                <CardTitle>Morador: {option.usuario}</CardTitle>
+                <CardText>{option.description}</CardText>
+                <CardText>{option.date_message}</CardText>
+              </CardContainer>
+            </Link>
+            {selectedChatUser === option.user_id && <ChatSection userId={option.user_id} />}
+          </div>
+        ))}
+      </Row>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title></Modal.Title>
           </Modal.Header>
@@ -193,9 +198,8 @@ const Posts = () => {
             </ButtonModal>
           </Modal.Footer>
         </Modal>
-      </Row>
-      {/* {priority === "2" ? <Button onClick={handleCreatePostClick}>Criar Post</Button> : ''} */}
     </Container>
   );
 };
-export default Posts;
+
+export default Chat;

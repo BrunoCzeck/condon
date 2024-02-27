@@ -1,5 +1,5 @@
 import axios from 'axios';
-const getChatId = (user_id) => {
+const getChatMessages = (user_id) => {
 const url = `http://127.0.0.1:3333/api/v1/chat/${user_id}`;
 
 return axios.get(url, {
@@ -10,4 +10,4 @@ return axios.get(url, {
   });
 };
 
-export default getChatId;
+export default getChatMessages;
