@@ -12,18 +12,13 @@ export const StyledLink = styled(Link)`
 `;
 
 export const CardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
+  /* Adicione seus estilos existentes para o CardContainer */
   border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  height: auto;
-  margin: 10px;
-  &:hover {
-    transform: translateY(-5px);
-  }
+  width: 500px;
+  height: 130px;
+  padding: 5px 30px 10px 10px;
+  margin-top: 10px;
+}
 `;
 
 export const CardTitle = styled.h3`
@@ -87,3 +82,41 @@ export const Logo = styled.img`
   width: 30px;
   height: auto;
 `;
+
+export const Div = styled.div`
+  /* Adicione seus estilos para o conteúdo do lado direito */
+  flex: 1;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ccc;
+`;
+
+
+export const ChatContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const LeftContainer = styled.div`
+  flex: 1;
+  padding: 10px;
+`;
+
+export const RightContainer = styled.div`
+  flex: 1;
+  padding: 10px;
+`;
+
+export const TableMr = styled.table`
+    width: 900px;
+    height: 700px;
+    border-collapse: collapse;
+    overflow-y: auto;
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+
+`;
+
