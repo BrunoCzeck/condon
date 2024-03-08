@@ -19,6 +19,8 @@ import Correspondence from './pages/Correspondence';
 import CorrespondenceList from './pages/CorrespondenceList';
 import Meeting from './pages/Meeting';
 import Chat from './pages/Chat';
+import ChatUser from './pages/Chat_User';
+import Voting from './pages/Voting';
 
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
           <Route path="/list/correspondence" element={<CorrespondenceList />} />
           <Route path="/meeting" element={<Meeting />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/chat/user" element={<ChatUser />} />
+          <Route path="/voting" element={<Voting />} />
                     
         </Routes>
       </div>

@@ -55,7 +55,7 @@ const NavbarPriority = () => {
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/#">
+          <StyledLink to="/voting">
             <NavLink>Votação</NavLink>
           </StyledLink>
         </NavLinkItem>
