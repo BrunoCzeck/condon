@@ -1,290 +1,260 @@
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal, Form, Row} from 'react-bootstrap';
-import getCorrespondence from '../../components/services/api-correspondence/GetCorrespondence';
-import getCorrespondenceTypeId from '../../components/services/api-correspondence/api-correspondence-type/GetCorrespondenceIdType';
-import getUserEnterprise from '../../components/services/api-users/GetUserEnterprise';
-import getChatEnterpriseId from '../../components/services/api-chat/GetChatEnterprise';
-import sendDataChat from '../../components/services/api-chat/PostChat';
-import {CardContainer, CardTitle, CardText, Button, Container, ButtonAddPost, Logo, ButtonModal, TableMr} from './AvisoStyle'
+import { Modal, Form, Button, InputGroup  } from 'react-bootstrap';
+import getEnterpriseVoting from '../../components/services/api-voting/GetVotingEnterprise';
+import sendVoting from '../../components/services/api-voting/PostVoting'
+import Row from 'react-bootstrap/Row';
+import {CardContainer, CardTitle, CardText, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
 import NavbarPriority from '../../components/NavBar/NavBarPriority';
 import NavBarNoPriority from '../../components/NavBar/NavBarNoPriority';
 import postSvg from '../../img/8.svg';
-import { Link } from 'react-router-dom';
-import getChat from '../../components/services/api-chat/GetChat';
-import putSendDataChat from '../../components/services/api-chat/PutChat';
+import moment from 'moment-timezone';
 
-const ChatSection = ({ userId }) => {
-  const [chatData, setChatData] = useState({});
-  const [user_id, setChatDataId] = useState({});
-  const [user_id_send_message, setChatSendIdMessage] = useState('');
-  const [description, setDescription] = useState('');
-  useEffect(() => {
-    const fetchChatData = async () => {
-      try {
-        const response = await getChat(userId); // Substitua pelo seu serviço real
-        setChatData(response.data);
-        setChatDataId(response.data.user_id);
-        setChatSendIdMessage(response.data.chat[0].user_id_send_message);
-      } catch (error) {
-        console.error('Erro ao obter dados do chat:', error);
-      }
-    };
-
-    fetchChatData();
-  }, [userId]);
-
-  const handleCreateMessage = (event) => {
-    event.preventDefault();
-
-    const data = { 
-      chat:[
-        {
-          user_id:user_id,
-          user_id_send_message:user_id_send_message, 
-          description: description     
-        }
-      ]
-    };
-
-    putSendDataChat(user_id, data)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error('Ocorreu um erro ao enviar os dados:', error);
-      });
-  };
-
-  return (
-  <div>
-    <TableMr>
-      <tbody>
-        {chatData.chat &&
-          chatData.chat.map((message, index) => (
-            <tr key={index}>
-              <td style={{ marginBottom: '10px' }}>
-                {message.user_id_send_message === user_id ? (
-                  <div
-                    style={{
-                      border: '2px solid #dedede',
-                      backgroundColor: '#f1f1f1',
-                      borderRadius: '5px',
-                      padding: '10px',
-                      margin: '10px 0',
-                      textAlign: 'right',
-                      color: '#999',
-                    }}
-                  >
-                    <p>{message.description}</p>
-                    <p>{message.date_message}</p>
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      border: '2px solid #dedede',
-                      backgroundColor: '#f1f1f1',
-                      borderRadius: '5px',
-                      padding: '10px',
-                      margin: '10px 0',
-                    }}
-                  >
-                    <p>{message.description}</p>
-                    <p>{message.date_message}</p>
-                  </div>
-                )}
-              </td>
-            </tr>
-          ))}
-      </tbody>
-      <tfoot>
-        <tr>
-          <td>
-            <button onClick={handleCreateMessage}>Enviar</button>
-            <input type="text" name="description" value={description} onChange={(e) => setDescription(e.target.value)}></input>
-          </td>
-        </tr>
-      </tfoot>
-    </TableMr>
-  </div>    
-  );
-};
 
 const Voting = () => {
+  const [voting, setVotingEnterprise] = useState([]); // Inicializando como uma array vazia
   const [idEnterprise, setEnterprise] = useState(null);
-  const [users, setUserEnterprise] = useState([]);
-  const [chat, setUsersChatEnterprise] = useState([]);
   const [idUsers, setUsers] = useState(null);
-  const [description, setDescription] = useState(null);
   const [priority, setPriority] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [selectedUser, setSelectedUser] = useState({ apartament: '', bloc: '', id: '' });
-  const [selectedResponsavel, setSelectedResponsavel] = useState('');
-  const [selectedChatUser, setSelectedChatUser] = useState(null);
+  const [title, setTitle] = useState('');
+  const [option_1, setOption1] = useState('');
+  const [option_2, setOption2] = useState('');  
+  const [option_3, setOption3] = useState('');  
+  const [option_4, setOption4] = useState('');  
+  const [option_5, setOption5] = useState('');  
+  const [option_6, setOption6] = useState('');  
+  const [description, setDescription] = useState('');
+  const [dataVotingInit, setDataInit] = useState(''); // Novo estado para armazenar a data da retirada
+  const [dataVotingEnd, setDataEnd] = useState(''); // Novo estado para armazenar a data da retirada
+  const [votacao_change, setChangeVoting] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setEnterprise(parsedUser.data.id_enterprise);
-      setUsers(parsedUser.data.id);
       setPriority(parsedUser.data.priority);
       setLoggedIn(true);
     }
   }, []);
 
   useEffect(() => {
-    const fetchUserEnterprise = async () => {
-      try {
-        const response = await getUserEnterprise(idEnterprise);
-        setUserEnterprise(response.data.data);
-      } catch (error) {
-        console.error('Ocorreu um erro ao enviar os dados:', error);
-      }
-    };
-    fetchUserEnterprise(idEnterprise);
-  }, [idEnterprise]);
-
-  useEffect(() => {
-    const fetchChatUsers = async () => {
-      try {
-        const response = await getChatEnterpriseId(idEnterprise);
-        setUsersChatEnterprise(response.data);
-      } catch (error) {
-        console.error('Ocorreu um erro ao enviar os dados:', error);
-      }
-    };
-    fetchChatUsers(idEnterprise);
+    if (idEnterprise) {
+      const fetchVotingEnterpriseData = async () => {
+        try {
+          const response = await getEnterpriseVoting(idEnterprise);
+          setVotingEnterprise(response.data.data);
+        } catch (error) {
+          console.error('Ocorreu um erro ao enviar os dados:', error);
+        }
+      };
+      fetchVotingEnterpriseData();
+    }
   }, [idEnterprise]);
 
   const handleCreatePostClick = () => {
     setShowModal(true);
   };
 
-  const handleCardClick = (userId) => {
-    // Defina o usuário selecionado para abrir o bate-papo
-    setSelectedChatUser(userId);
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
   };
+  // Aqui você pode implementar a lógica para enviar o post, etc.
+  const handleCreateVoting = (event) => {
+      event.preventDefault();
 
-  const handleCreatePost = (event) => {
-    event.preventDefault();
+      const formattedDateInit = dataVotingInit
+      ? moment(dataVotingInit).tz('America/Sao_Paulo').format('DD/MM/YYYY')
+      : '';
 
-    const data = {
-      user_id: selectedUser.id,
-      apartament: selectedUser.apartament,
-      usuario: selectedResponsavel,
-      bloc: selectedUser.bloc,
-      id_enterprise: idEnterprise,
-      chat: [
-        {
-          user_id: selectedUser.id,
-          user_id_send_message: idUsers,
-          description: description,
-        },
-      ],
+      const formattedDateEnd = dataVotingEnd
+      ? moment(dataVotingEnd).tz('America/Sao_Paulo').format('DD/MM/YYYY')
+      : '';
+
+      const data = { 
+      id_enterprise:idEnterprise, 
+      title, 
+      description, 
+      votacao_change: isChecked, 
+      date_init: formattedDateInit, 
+      date_end: formattedDateEnd, 
+      option_1, 
+      option_2, 
+      option_3,
+      option_4, 
+      option_5, 
+      option_6
     };
-
-    sendDataChat(data)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error('Ocorreu um erro ao enviar os dados:', error);
-      });
-
+      sendVoting(data)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error('Ocorreu um erro ao enviar os dados:', error);
+        });
+    
     setShowModal(false);
+    //window.location.reload() // Recarrega a pagina apos o cadastro do posts.
+   };
+   const handleGoBack = () => {
+    // Voltar para a página anterior no histórico do navegador
+    window.history.back();
+  };
+  const handleAcessarClick = (link) => {
+    window.open(link, '_blank');
   };
 
   return (
     <Container className="d-flex p-0">
-      {priority === '2' ? <NavbarPriority /> : <NavBarNoPriority />}
-      <Button onClick={handleCreatePostClick}>
-        <Logo src={postSvg} alt="Adicionar Novo Post" />
-      </Button>
-      <Row>
-        {chat.map((option, index) => (
-          <div style={{display: 'flex'}} key={index}>
-            <Link onClick={() => handleCardClick(option.user_id)}>
-              <CardContainer>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Apartamento: {option.apartament} Bloco: {option.bloc}
-                </Card.Subtitle>
-                <CardTitle>Morador: {option.usuario}</CardTitle>
-                <CardText>{option.description}</CardText>
-                <CardText>{option.date_message}</CardText>
-              </CardContainer>
-            </Link>
-            {selectedChatUser === option.user_id && <ChatSection userId={option.user_id} />}
-          </div>
-        ))}
-      </Row>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      {priority === "2" ? <NavbarPriority/> : <NavBarNoPriority/>}
+      <Row className="d-flex g-0 p-4">
+      {voting.map((option, index) => (
+          <Card className="m-1">
+          <Card.Header as="h5"> </Card.Header>
+          <Card.Body>
+            <Card.Title>Titulo:{option.title}</Card.Title>
+            <Card.Text>
+              Descrição: {option.description}
+            </Card.Text>
+            <Card.Text>
+              Data de Inicio: {option.date_init}
+            </Card.Text>
+            <Card.Text>
+              Data de Encerramento: {option.date_end}
+            </Card.Text>
+            <Button className="ml-3" variant="primary" onClick={() => handleAcessarClick(option.link)}>Visualizar Votação</Button>
+            <Button className="ml-3" variant="primary" onClick={() => handleAcessarClick(option.link)}>Alterar</Button>
+            <Button className="ml-3" variant="primary" onClick={() => handleAcessarClick(option.link)}>Deletar</Button>
+          </Card.Body>
+        </Card>
+      ))}
+
+      {/* Modal para criar post */}
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header closeButton>
-            <Modal.Title></Modal.Title>
+            <Modal.Title>Criar Votação</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-          {/* Aqui você pode adicionar o formulário ou o conteúdo para criar o post */}
-            <Form.Group controlId="formPostDescription">
-              <Form.Label>Selecione o Apartamento</Form.Label>
-              <Form.Select
-                value={selectedUser.id}
-                onChange={(e) => {
-                  const selectedUserId = e.target.value;
-                  const selectedUserData = users.find((user) => user.id === selectedUserId);
-
-                  setSelectedUser({
-                    apartament: selectedUserData.apartament,
-                    bloc: selectedUserData.bloc,
-                    id: selectedUserId,
-                  });
-                  setSelectedResponsavel(selectedUserData.usuario);
-                }}
-                aria-label="Default select example"
-              >
-                <option>Selecione o Apartamento</option>
-                {users.map((user, index) => (
-                  <option key={index} value={user.id}>
-                    {user.apartament} {user.bloc}
-                  </option>
-                ))}
-              </Form.Select>
-            </Form.Group>
-            <Form.Group controlId="formPostDescription">
-            <Form.Label>Morador</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={1}
-              placeholder="Résponsavel"
-              type="text"
-              name="title"
-              value={selectedResponsavel} // Atualiza para usar o nome do responsável
-              onChange={(e) => setSelectedResponsavel(e.target.value)}
-            />
-            </Form.Group>
-            <Form.Group controlId="formPostDescription">
-            <Form.Label>Texto</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              placeholder="description"
-              type="text"
-              name="title"
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            </Form.Group>
+            {/* Aqui você pode adicionar o formulário ou o conteúdo para criar o post */}
+              <Form.Group controlId="formPostDescription">
+                <Form.Label>Titulo</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={1}
+                  placeholder="Digite o titulo"
+                  type="text" name="title" value={title} onChange={(e) => setTitle(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="formPostDescription">
+                <Form.Label>Descrição</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Digite a descrição do post"
+                  type="text" name="description" value={description} onChange={(e) => setDescription(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Label htmlFor="inputPassword5">Data Inicio</Form.Label>
+              <Form.Control
+                type="date"
+                id="inputPassword5"
+                aria-describedby="passwordHelpBlock"
+                value={dataVotingInit}
+                onChange={(e) => setDataInit(e.target.value)}
+              />
+              <Form.Label htmlFor="inputPassword5">Data Fim</Form.Label>
+              <Form.Control
+                type="date"
+                id="inputPassword5"
+                aria-describedby="passwordHelpBlock"
+                value={dataVotingEnd}
+                onChange={(e) => setDataEnd(e.target.value)}
+              />
+              <InputGroup className="mb-3 mt-3">
+                <InputGroup.Checkbox
+                  aria-label="Checkbox for following text input"
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                />
+                <Form.Control
+                  aria-label="Text input with checkbox"
+                  placeholder="Permitir Alterar Voto Durante a Votação"
+                  disabled={!isChecked} // desabilita o campo de entrada se o checkbox não estiver marcado
+                  name="votacao_change"
+                  value={votacao_change}
+                  onChange={(e) => setChangeVoting(e.target.value)}
+                />
+                {console.log(isChecked)}
+              </InputGroup>
+              <Form.Text id="passwordHelpBlock" muted>
+                Cadastre a quantidade de opções que você gostaria na votação 
+              </Form.Text>
+              <Form.Group controlId="formPostDescription">
+                <Form.Control
+                  className="mt-1"
+                  as="textarea"
+                  rows={1}
+                  placeholder="Opção 1"
+                  type="text" name="option_1" value={option_1} onChange={(e) => setOption1(e.target.value)}
+                />
+                <Form.Control
+                className="mt-1"
+                as="textarea"
+                rows={1}
+                placeholder="Opção 2"
+                type="text" name="option_2" value={option_2} onChange={(e) => setOption2(e.target.value)}
+                />
+                <Form.Control
+                className="mt-1"
+                as="textarea"
+                rows={1}
+                placeholder="Opção 3"
+                type="text" name="option_3" value={option_3} onChange={(e) => setOption3(e.target.value)}
+                />
+                <Form.Control
+                className="mt-1"
+                as="textarea"
+                rows={1}
+                placeholder="Opção 4"
+                type="text" name="option_4" value={option_4} onChange={(e) => setOption4(e.target.value)}
+                />
+                <Form.Control
+                className="mt-1"
+                as="textarea"
+                rows={1}
+                placeholder="Opção 5"
+                type="text" name="option_5" value={option_5} onChange={(e) => setOption5(e.target.value)}
+                />
+                <Form.Control
+                className="mt-1"
+                as="textarea"
+                rows={1}
+                placeholder="Opção 6"
+                type="text" name="option_6" value={option_6} onChange={(e) => setOption6(e.target.value)}
+                />
+              </Form.Group>
           </Modal.Body>
           <Modal.Footer>
           <ButtonModal variant="secondary" onClick={() => setShowModal(false)}>
             Fechar
           </ButtonModal>
-          <ButtonModal variant="primary" onClick={handleCreatePost}>
+          <ButtonModal variant="primary" onClick={handleCreateVoting}>
             Criar
           </ButtonModal>
-        </Modal.Footer>
+          </Modal.Footer>
         </Modal>
+      </Row>
+      {priority === "2" ?
+      <Button onClick={handleCreatePostClick}>
+        <Logo src={postSvg} alt="Adicionar Novo Post"/>
+      </Button> : ''}
+      {/* {priority === "2" ? <Button onClick={handleCreatePostClick}>Criar Post</Button> : ''} */}
     </Container>
   );
 };
+
 export default Voting;
