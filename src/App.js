@@ -21,6 +21,7 @@ import Meeting from './pages/Meeting';
 import Chat from './pages/Chat';
 import ChatUser from './pages/Chat_User';
 import Voting from './pages/Voting';
+import VotingEdit from './pages/Voting/Edit';
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
           <Route path="/chat" element={<Chat />} />
           <Route path="/chat/user" element={<ChatUser />} />
           <Route path="/voting" element={<Voting />} />
+          <Route path="/voting/:id" element={<VotingEdit />} />
                     
         </Routes>
       </div>

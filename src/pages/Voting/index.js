@@ -4,12 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Form, Button, InputGroup  } from 'react-bootstrap';
 import getEnterpriseVoting from '../../components/services/api-voting/GetVotingEnterprise';
 import sendVoting from '../../components/services/api-voting/PostVoting'
+import deleteVoting from '../../components/services/api-voting/DeleteVoting'
+import updateVoting from '../../components/services/api-voting/PutVoting';
 import Row from 'react-bootstrap/Row';
 import {CardContainer, CardTitle, CardText, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
 import NavbarPriority from '../../components/NavBar/NavBarPriority';
 import NavBarNoPriority from '../../components/NavBar/NavBarNoPriority';
 import postSvg from '../../img/8.svg';
 import moment from 'moment-timezone';
+import { Link } from 'react-router-dom';
 
 
 const Voting = () => {
@@ -31,6 +34,7 @@ const Voting = () => {
   const [dataVotingEnd, setDataEnd] = useState(''); // Novo estado para armazenar a data da retirada
   const [votacao_change, setChangeVoting] = useState('');
   const [isChecked, setIsChecked] = useState(false);
+  const [id_voting, setIdVoting] = useState('');
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser');
@@ -48,6 +52,7 @@ const Voting = () => {
         try {
           const response = await getEnterpriseVoting(idEnterprise);
           setVotingEnterprise(response.data.data);
+          setIdVoting(response.data.data[0].id_voting);
         } catch (error) {
           console.error('Ocorreu um erro ao enviar os dados:', error);
         }
@@ -63,7 +68,13 @@ const Voting = () => {
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
-  // Aqui você pode implementar a lógica para enviar o post, etc.
+  
+  const handleEditClick = () => {
+    // Aqui você pode adicionar a lógica para preencher os campos do modal de edição com os dados do item selecionado
+    // Por enquanto, apenas mostrando o modal de edição
+    setShowModal(true);
+  };
+
   const handleCreateVoting = (event) => {
       event.preventDefault();
 
@@ -75,20 +86,20 @@ const Voting = () => {
       ? moment(dataVotingEnd).tz('America/Sao_Paulo').format('DD/MM/YYYY')
       : '';
 
-      const data = { 
-      id_enterprise:idEnterprise, 
-      title, 
-      description, 
-      votacao_change: isChecked, 
-      date_init: formattedDateInit, 
-      date_end: formattedDateEnd, 
-      option_1, 
-      option_2, 
-      option_3,
-      option_4, 
-      option_5, 
-      option_6
-    };
+        const data = { 
+        id_enterprise:idEnterprise, 
+        title, 
+        description, 
+        votacao_change: isChecked, 
+        date_init: formattedDateInit, 
+        date_end: formattedDateEnd, 
+        option_1, 
+        option_2, 
+        option_3,
+        option_4, 
+        option_5, 
+        option_6
+      };
       sendVoting(data)
         .then((response) => {
           console.log(response.data);
@@ -100,12 +111,23 @@ const Voting = () => {
     setShowModal(false);
     //window.location.reload() // Recarrega a pagina apos o cadastro do posts.
    };
+
    const handleGoBack = () => {
     // Voltar para a página anterior no histórico do navegador
     window.history.back();
   };
   const handleAcessarClick = (link) => {
     window.open(link, '_blank');
+  };
+
+  const handleDeletarVoting = (id_voting) => {
+    const confirmDelete = window.confirm('Tem certeza que deseja deletar este usuário?');
+
+    if (confirmDelete) {
+      // Chama a função passando o id e deletando o usuário
+      window.location.reload(); // Recarrega a pagina apos deletar
+      deleteVoting(id_voting);
+    }
   };
 
   return (
@@ -126,9 +148,21 @@ const Voting = () => {
             <Card.Text>
               Data de Encerramento: {option.date_end}
             </Card.Text>
-            <Button className="ml-3" variant="primary" onClick={() => handleAcessarClick(option.link)}>Visualizar Votação</Button>
-            <Button className="ml-3" variant="primary" onClick={() => handleAcessarClick(option.link)}>Alterar</Button>
-            <Button className="ml-3" variant="primary" onClick={() => handleAcessarClick(option.link)}>Deletar</Button>
+            <Link to={`/voting/view/${id_voting}`}>
+              <Button>
+                Votação
+              </Button>
+            </Link>
+            <Link to={`/voting/${id_voting}`}>
+              <Button>
+                Alterar
+              </Button>
+            </Link>
+            <Link to={`/voting`}>
+              <Button onClick={() => handleDeletarVoting(id_voting)}>
+                Deletar
+              </Button>
+            </Link>
           </Card.Body>
         </Card>
       ))}
@@ -195,11 +229,11 @@ const Voting = () => {
               </Form.Text>
               <Form.Group controlId="formPostDescription">
                 <Form.Control
-                  className="mt-1"
-                  as="textarea"
-                  rows={1}
-                  placeholder="Opção 1"
-                  type="text" name="option_1" value={option_1} onChange={(e) => setOption1(e.target.value)}
+                className="mt-1"
+                as="textarea"
+                rows={1}
+                placeholder="Opção 1"
+                type="text" name="option_1" value={option_1} onChange={(e) => setOption1(e.target.value)}
                 />
                 <Form.Control
                 className="mt-1"
