@@ -34,7 +34,7 @@ const Voting = () => {
   const [dataVotingEnd, setDataEnd] = useState(''); // Novo estado para armazenar a data da retirada
   const [votacao_change, setChangeVoting] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  const [id_voting, setIdVoting] = useState('');
+  const [id_voting, setIdVoting] = useState([]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser');
@@ -52,7 +52,6 @@ const Voting = () => {
         try {
           const response = await getEnterpriseVoting(idEnterprise);
           setVotingEnterprise(response.data.data);
-          setIdVoting(response.data.data[0].id_voting);
         } catch (error) {
           console.error('Ocorreu um erro ao enviar os dados:', error);
         }
@@ -148,18 +147,19 @@ const Voting = () => {
             <Card.Text>
               Data de Encerramento: {option.date_end}
             </Card.Text>
-            <Link to={`/voting/view/${id_voting}`}>
+            <Link to={`/voting/view/${option.id_voting}`}>
               <Button>
                 Votação
               </Button>
             </Link>
-            <Link to={`/voting/${id_voting}`}>
+            
+            <Link to={`/voting/${option.id_voting}`}>
               <Button>
                 Alterar
               </Button>
             </Link>
             <Link to={`/voting`}>
-              <Button onClick={() => handleDeletarVoting(id_voting)}>
+              <Button onClick={() => handleDeletarVoting(option.id_voting)}>
                 Deletar
               </Button>
             </Link>
@@ -222,7 +222,7 @@ const Voting = () => {
                   value={votacao_change}
                   onChange={(e) => setChangeVoting(e.target.value)}
                 />
-                {console.log(isChecked)}
+                {console.log(id_voting)}
               </InputGroup>
               <Form.Text id="passwordHelpBlock" muted>
                 Cadastre a quantidade de opções que você gostaria na votação 
