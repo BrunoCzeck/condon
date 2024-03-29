@@ -2,20 +2,21 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Form, Button, InputGroup  } from 'react-bootstrap';
-import getEnterpriseVoting from '../../components/services/api-voting/GetVotingEnterprise';
-import sendVoting from '../../components/services/api-voting/PostVoting'
-import deleteVoting from '../../components/services/api-voting/DeleteVoting'
-import updateVoting from '../../components/services/api-voting/PutVoting';
+import getEnterpriseVoting from '../../../components/services/api-voting/GetVotingEnterprise';
+import sendVoting from '../../../components/services/api-voting/PostVoting'
+import deleteVoting from '../../../components/services/api-voting/DeleteVoting'
+import updateVoting from '../../../components/services/api-voting/PutVoting';
 import Row from 'react-bootstrap/Row';
 import {CardContainer, CardTitle, CardText, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
-import NavbarPriority from '../../components/NavBar/NavBarPriority';
-import NavBarNoPriority from '../../components/NavBar/NavBarNoPriority';
-import postSvg from '../../img/8.svg';
+
+import NavbarPriority from '../../../components/NavBar/NavBarPriority';
+import NavBarNoPriority from '../../../components/NavBar/NavBarNoPriority';
+import postSvg from '../../../img/8.svg';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 
 
-const Voting = () => {
+const UsersVoting = () => {
   const [voting, setVotingEnterprise] = useState([]); // Inicializando como uma array vazia
   const [idEnterprise, setEnterprise] = useState(null);
   const [idUsers, setUsers] = useState(null);
@@ -147,19 +148,19 @@ const Voting = () => {
             <Card.Text>
               Data de Encerramento: {option.date_end}
             </Card.Text>
-            <Link to={`/voting/view/${option.id_voting}`}>
+            <Link onClick={handleCreatePostClick}>
               <Button>
-                Votação
+                Votar
               </Button>
             </Link>
             <Link to={`/voting/${option.id_voting}`}>
               <Button>
-                Alterar
+                Alterar Voto
               </Button>
             </Link>
-            <Link to={`/voting`}>
-              <Button onClick={() => handleDeletarVoting(option.id_voting)}>
-                Deletar
+            <Link to={`/voting/view/${option.id_voting}`}>
+              <Button>
+                Visualizar Votação
               </Button>
             </Link>
           </Card.Body>
@@ -290,4 +291,4 @@ const Voting = () => {
   );
 };
 
-export default Voting;
+export default UsersVoting;

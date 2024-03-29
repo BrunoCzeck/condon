@@ -23,13 +23,15 @@ import ChatUser from './pages/Chat_User';
 import Voting from './pages/Voting';
 import VotingEdit from './pages/Voting/Edit';
 import VotingView from './pages/Voting/View';
+import VotingUsers from './pages/Voting/Users';
+import VotingUser from './pages/Voting/VotingUsers';
 
 
 function App() {
   return (
     <Router>
       <div>
-      {/*   <Navbar /> */} {/* Adicione o componente Navbar aqui */}
+        {/*   <Navbar /> */} {/* Adicione o componente Navbar aqui */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/form" element={<FormUsers />} />
@@ -53,7 +55,9 @@ function App() {
           <Route path="/voting" element={<Voting />} />
           <Route path="/voting/:id" element={<VotingEdit />} />
           <Route path="/voting/view/:id" element={<VotingView />} />
-                    
+          <Route path="/voting/users" element={<VotingUsers />} />
+          <Route path="/voting/users/:id" element={<VotingUser />} />
+        
         </Routes>
       </div>
     </Router>

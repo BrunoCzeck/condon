@@ -9,7 +9,7 @@ import {
   NavLink,
   NavTexto,
   DividerLine
-  } from './NavBarNoPriorityStyle'; 
+} from './NavBarNoPriorityStyle';
 import { StyledLink } from './NavBarNoPriorityStyle';
 import Dropdown from 'react-bootstrap/Dropdown';
 
@@ -19,16 +19,16 @@ const NavbarNoPriority = () => {
     localStorage.clear();
     window.location.href = '/';
   };
-  
-  return ( 
-    <StyledNavbar>  
+
+  return (
+    <StyledNavbar>
       <NavLinks>
         <NavLinkItem>
           <StyledLink to="/">
             <LogoImagem src={homeIcon} alt="Home" />
             <NavTexto>Condon</NavTexto>
           </StyledLink>
-          <DividerLine/>
+          <DividerLine />
         </NavLinkItem>
         <NavLinkItem>
           <StyledLink to="/perfil">
@@ -46,19 +46,20 @@ const NavbarNoPriority = () => {
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-        <Dropdown>
-          <Dropdown.Toggle style={{
-            backgroundColor: 'transparent',
-            borderColor: 'transparent',
-            color: 'white'}} 
-            id="dropdown-basic">
-            Agendamentos
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item href="/scheduler">Agendar</Dropdown.Item>
-            <Dropdown.Item href="/history">Historico</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+          <Dropdown>
+            <Dropdown.Toggle style={{
+              backgroundColor: 'transparent',
+              borderColor: 'transparent',
+              color: 'white'
+            }}
+              id="dropdown-basic">
+              Agendamentos
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item href="/scheduler">Agendar</Dropdown.Item>
+              <Dropdown.Item href="/history">Historico</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </NavLinkItem>
         <NavLinkItem>
           <StyledLink to="/meeting">
@@ -71,7 +72,7 @@ const NavbarNoPriority = () => {
           </StyledLink>
         </NavLinkItem>
         <NavLinkItem>
-          <StyledLink to="/#">
+          <StyledLink to="/voting/users">
             <NavLink>Votação</NavLink>
           </StyledLink>
         </NavLinkItem>
