@@ -28,9 +28,9 @@ const ViewVoting = () => {
 
   useEffect(() => {
     const labels = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 6; i++) {
       const optionKey = `option_${i}`;
-      if (listOptions[optionKey] !== undefined && listOptions[optionKey] !== '') {
+      if (listOptions[optionKey] !== undefined) {
         labels.push(listOptions[optionKey]);
       }
     }

@@ -1,49 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal, Form, Button, InputGroup  } from 'react-bootstrap';
+import { Modal, Form, Button } from 'react-bootstrap';
 import getEnterpriseVoting from '../../../components/services/api-voting/GetVotingEnterprise';
+import getVotingUser from '../../../components/services/api-voting/GetVotingUser';
+import postVotingUser from '../../../components/services/api-voting/PostVotingUsers'
 import sendVoting from '../../../components/services/api-voting/PostVoting'
-import deleteVoting from '../../../components/services/api-voting/DeleteVoting'
-import updateVoting from '../../../components/services/api-voting/PutVoting';
-import Row from 'react-bootstrap/Row';
-import {CardContainer, CardTitle, CardText, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
-
-import NavbarPriority from '../../../components/NavBar/NavBarPriority';
-import NavBarNoPriority from '../../../components/NavBar/NavBarNoPriority';
-import postSvg from '../../../img/8.svg';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 
-
 const UsersVoting = () => {
-  const [voting, setVotingEnterprise] = useState([]); // Inicializando como uma array vazia
+  const [voting, setVotingEnterprise] = useState([]);
   const [idEnterprise, setEnterprise] = useState(null);
-  const [idUsers, setUsers] = useState(null);
-  const [priority, setPriority] = useState(null);
+  const [responseLocal, setResponseLocal] = useState([]);
+  const [responseUserVoting, setVotingUser] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
   const [title, setTitle] = useState('');
-  const [option_1, setOption1] = useState('');
-  const [option_2, setOption2] = useState('');  
-  const [option_3, setOption3] = useState('');  
-  const [option_4, setOption4] = useState('');  
-  const [option_5, setOption5] = useState('');  
-  const [option_6, setOption6] = useState('');  
   const [description, setDescription] = useState('');
-  const [dataVotingInit, setDataInit] = useState(''); // Novo estado para armazenar a data da retirada
-  const [dataVotingEnd, setDataEnd] = useState(''); // Novo estado para armazenar a data da retirada
-  const [votacao_change, setChangeVoting] = useState('');
+  const [dataVotingInit, setDataInit] = useState('');
+  const [dataVotingEnd, setDataEnd] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  const [id_voting, setIdVoting] = useState([]);
+  const [selectedVotingId, setSelectedVotingId] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [options, setOptions] = useState([]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setEnterprise(parsedUser.data.id_enterprise);
-      setPriority(parsedUser.data.priority);
-      setLoggedIn(true);
+      setResponseLocal(parsedUser.data)
     }
   }, []);
 
@@ -61,84 +47,97 @@ const UsersVoting = () => {
     }
   }, [idEnterprise]);
 
-  const handleCreatePostClick = () => {
-    setShowModal(true);
-  };
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
-  
-  const handleEditClick = () => {
-    // Aqui você pode adicionar a lógica para preencher os campos do modal de edição com os dados do item selecionado
-    // Por enquanto, apenas mostrando o modal de edição
-    setShowModal(true);
-  };
-
-  const handleCreateVoting = (event) => {
-      event.preventDefault();
-
-      const formattedDateInit = dataVotingInit
-      ? moment(dataVotingInit).tz('America/Sao_Paulo').format('DD/MM/YYYY')
-      : '';
-
-      const formattedDateEnd = dataVotingEnd
-      ? moment(dataVotingEnd).tz('America/Sao_Paulo').format('DD/MM/YYYY')
-      : '';
-
-        const data = { 
-        id_enterprise:idEnterprise, 
-        title, 
-        description, 
-        votacao_change: isChecked, 
-        date_init: formattedDateInit, 
-        date_end: formattedDateEnd, 
-        option_1, 
-        option_2, 
-        option_3,
-        option_4, 
-        option_5, 
-        option_6
-      };
-      sendVoting(data)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
+  useEffect(() => {
+    if (selectedVotingId) {
+      const data = {
+        user_id: responseLocal.id,
+        id_voting: selectedVotingId
+      }
+      const fetchVotingUserData = async () => {
+        try {
+          const response = await getVotingUser(data);
+          setVotingUser(response.data);
+          handleOpenModal(selectedVotingId);
+        } catch (error) {
           console.error('Ocorreu um erro ao enviar os dados:', error);
-        });
-    
-    setShowModal(false);
-    //window.location.reload() // Recarrega a pagina apos o cadastro do posts.
-   };
+        }
+      };
+      fetchVotingUserData();
+    }
+  }, [selectedVotingId]);
 
-   const handleGoBack = () => {
-    // Voltar para a página anterior no histórico do navegador
-    window.history.back();
-  };
-  const handleAcessarClick = (link) => {
-    window.open(link, '_blank');
-  };
-
-  const handleDeletarVoting = (id_voting) => {
-    const confirmDelete = window.confirm('Tem certeza que deseja deletar este usuário?');
-
-    if (confirmDelete) {
-      // Chama a função passando o id e deletando o usuário
-      window.location.reload(); // Recarrega a pagina apos deletar
-      deleteVoting(id_voting);
+  const handleOpenModal = (id_voting) => {
+    setShowModal(true);
+    setSelectedVotingId(id_voting);
+    const selectedVoting = voting.find(item => item.id_voting === id_voting);
+    if (selectedVoting) {
+      const optionsArray = Object.entries(selectedVoting)
+        .filter(([key, value]) => key.startsWith('option_') && value && typeof value === 'string' && value.trim() !== '')
+        .map(([key, value], idx) => ({
+          name: key,
+          value: value,
+          selected: responseUserVoting[key] === 1 // Marca como selecionado se o usuário já votou nesta opção
+        }));
+      setOptions(optionsArray);
     }
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedVotingId(null);
+  };
+
+  const handleOptionClick = (index) => {
+    setSelectedOption(index);
+    setOptions(prevOptions =>
+      prevOptions.map((opt, idx) => ({
+        ...opt,
+        selected: idx === index
+      }))
+    );
+  };
+
+  const handleCreateVoting = (event) => {
+    event.preventDefault();
+
+    const formattedDateInit = dataVotingInit
+      ? moment(dataVotingInit).tz('America/Sao_Paulo').format('DD/MM/YYYY')
+      : '';
+
+    const formattedDateEnd = dataVotingEnd
+      ? moment(dataVotingEnd).tz('America/Sao_Paulo').format('DD/MM/YYYY')
+      : '';
+
+    const data = {
+      user_id: responseLocal.id,
+      id_enterprise: idEnterprise,
+      id_voting: selectedVotingId,
+      usuario: responseLocal.usuario,
+      apartament: responseLocal.apartament,
+      bloc: responseLocal.bloc,
+      ...options.reduce((acc, opt) => {
+        acc[opt.name] = opt.selected ? "1" : "0";
+        return acc;
+      }, {})
+    };
+    postVotingUser(data)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error('Ocorreu um erro ao enviar os dados:', error);
+      });
+
+    setShowModal(false);
+  };
+
   return (
-    <Container className="d-flex p-0">
-      {priority === "2" ? <NavbarPriority/> : <NavBarNoPriority/>}
-      <Row className="d-flex g-0 p-4">
+    <div>
       {voting.map((option, index) => (
-          <Card className="m-1">
-          <Card.Header as="h5"> </Card.Header>
+        <Card key={index}>
+          <Card.Header as="h5"></Card.Header>
           <Card.Body>
-            <Card.Title>Titulo:{option.title}</Card.Title>
+            <Card.Title>Titulo: {option.title}</Card.Title>
             <Card.Text>
               Descrição: {option.description}
             </Card.Text>
@@ -148,146 +147,40 @@ const UsersVoting = () => {
             <Card.Text>
               Data de Encerramento: {option.date_end}
             </Card.Text>
-            <Link onClick={handleCreatePostClick}>
-              <Button>
-                Votar
-              </Button>
-            </Link>
-            <Link to={`/voting/${option.id_voting}`}>
-              <Button>
-                Alterar Voto
-              </Button>
+            <Link onClick={() => setSelectedVotingId(option.id_voting)}>
+              <Button>Votar</Button>
             </Link>
             <Link to={`/voting/view/${option.id_voting}`}>
-              <Button>
-                Visualizar Votação
-              </Button>
+              <Button>Visualizar Votação</Button>
             </Link>
           </Card.Body>
         </Card>
       ))}
-
-      {/* Modal para criar post */}
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Criar Votação</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {/* Aqui você pode adicionar o formulário ou o conteúdo para criar o post */}
-              <Form.Group controlId="formPostDescription">
-                <Form.Label>Titulo</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={1}
-                  placeholder="Digite o titulo"
-                  type="text" name="title" value={title} onChange={(e) => setTitle(e.target.value)}
-                />
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Votar</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            {options.map((opt, idx) => (
+              <Form.Group key={idx} className="d-flex justify-content-around">
+                <Button
+                  className="mt-3"
+                  variant={opt.selected ? "primary" : "secondary"} // Altera a cor do botão com base na seleção
+                  onClick={() => handleOptionClick(idx)}
+                >
+                  {opt.name}: "{opt.value}"
+                </Button>
               </Form.Group>
-              <Form.Group controlId="formPostDescription">
-                <Form.Label>Descrição</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  placeholder="Digite a descrição do post"
-                  type="text" name="description" value={description} onChange={(e) => setDescription(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Label htmlFor="inputPassword5">Data Inicio</Form.Label>
-              <Form.Control
-                type="date"
-                id="inputPassword5"
-                aria-describedby="passwordHelpBlock"
-                value={dataVotingInit}
-                onChange={(e) => setDataInit(e.target.value)}
-              />
-              <Form.Label htmlFor="inputPassword5">Data Fim</Form.Label>
-              <Form.Control
-                type="date"
-                id="inputPassword5"
-                aria-describedby="passwordHelpBlock"
-                value={dataVotingEnd}
-                onChange={(e) => setDataEnd(e.target.value)}
-              />
-              <InputGroup className="mb-3 mt-3">
-                <InputGroup.Checkbox
-                  aria-label="Checkbox for following text input"
-                  checked={isChecked}
-                  onChange={handleCheckboxChange}
-                />
-                <Form.Control
-                  aria-label="Text input with checkbox"
-                  placeholder="Permitir Alterar Voto Durante a Votação"
-                  disabled={!isChecked} // desabilita o campo de entrada se o checkbox não estiver marcado
-                  name="votacao_change"
-                  value={votacao_change}
-                  onChange={(e) => setChangeVoting(e.target.value)}
-                />
-                {console.log(id_voting)}
-              </InputGroup>
-              <Form.Text id="passwordHelpBlock" muted>
-                Cadastre a quantidade de opções que você gostaria na votação 
-              </Form.Text>
-              <Form.Group controlId="formPostDescription">
-                <Form.Control
-                className="mt-1"
-                as="textarea"
-                rows={1}
-                placeholder="Opção 1"
-                type="text" name="option_1" value={option_1} onChange={(e) => setOption1(e.target.value)}
-                />
-                <Form.Control
-                className="mt-1"
-                as="textarea"
-                rows={1}
-                placeholder="Opção 2"
-                type="text" name="option_2" value={option_2} onChange={(e) => setOption2(e.target.value)}
-                />
-                <Form.Control
-                className="mt-1"
-                as="textarea"
-                rows={1}
-                placeholder="Opção 3"
-                type="text" name="option_3" value={option_3} onChange={(e) => setOption3(e.target.value)}
-                />
-                <Form.Control
-                className="mt-1"
-                as="textarea"
-                rows={1}
-                placeholder="Opção 4"
-                type="text" name="option_4" value={option_4} onChange={(e) => setOption4(e.target.value)}
-                />
-                <Form.Control
-                className="mt-1"
-                as="textarea"
-                rows={1}
-                placeholder="Opção 5"
-                type="text" name="option_5" value={option_5} onChange={(e) => setOption5(e.target.value)}
-                />
-                <Form.Control
-                className="mt-1"
-                as="textarea"
-                rows={1}
-                placeholder="Opção 6"
-                type="text" name="option_6" value={option_6} onChange={(e) => setOption6(e.target.value)}
-                />
-              </Form.Group>
-          </Modal.Body>
-          <Modal.Footer>
-          <ButtonModal variant="secondary" onClick={() => setShowModal(false)}>
-            Fechar
-          </ButtonModal>
-          <ButtonModal variant="primary" onClick={handleCreateVoting}>
-            Criar
-          </ButtonModal>
-          </Modal.Footer>
-        </Modal>
-      </Row>
-      {priority === "2" ?
-      <Button onClick={handleCreatePostClick}>
-        <Logo src={postSvg} alt="Adicionar Novo Post"/>
-      </Button> : ''}
-      {/* {priority === "2" ? <Button onClick={handleCreatePostClick}>Criar Post</Button> : ''} */}
-    </Container>
+            ))}
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>Fechar</Button>
+          <Button variant="primary" onClick={handleCreateVoting}>Votar</Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 };
 
