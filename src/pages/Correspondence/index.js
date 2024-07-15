@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Form } from 'react-bootstrap';
-import getCorrespondence from '../../components/services/api-correspondence/GetCorrespondence';
-import getCorrespondenceTypeId from '../../components/services/api-correspondence/api-correspondence-type/GetCorrespondenceIdType';
-import getUserEnterprise from '../../components/services/api-users/GetUserEnterprise';
-import sendDataCorrespondence from '../../components/services/api-correspondence/PostCorrespondence';
+import getCorrespondence from '../../services/api-correspondence/GetCorrespondence';
+import getCorrespondenceTypeId from '../../services/api-correspondence/api-correspondence-type/GetCorrespondenceIdType';
+import getUserEnterprise from '../../services/api-users/GetUserEnterprise';
+import sendDataCorrespondence from '../../services/api-correspondence/PostCorrespondence';
 import Row from 'react-bootstrap/Row';
 import {CardContainer, CardTitle, CardText, Button, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
 import NavbarPriority from '../../components/NavBar/NavBarPriority';

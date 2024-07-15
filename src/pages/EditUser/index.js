@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import getUser from '../../components/services/api-users/GetUser';
-import putData from '../../components/services/api-users/PutUsers';
+import getUser from '../../services/api-users/GetUser';
+import putData from '../../services/api-users/PutUsers';
 import {Container, Form, FormInput, Button, CustomLabel, CustomSubLabel, Img, Text, ContainerButton, ContainerImagem } from './EditStyle'
 import homeIcon from '../../img/2.svg';
 

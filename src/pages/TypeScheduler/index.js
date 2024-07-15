@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import getScheduler from '../../components/services/api-scheduler/GetScheduler';
+import getScheduler from '../../services/api-scheduler/GetScheduler';
 import { Table, Tabletbody, Tablethead, TableTh, TableTd, TableTr, Button, Header, H1, Body, ButtonEdit, Logo} from './style';
 import {Form, InputGroup } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
-import sendScheduler from '../../components/services/api-scheduler/PostScheduler';
+import sendScheduler from '../../services/api-scheduler/PostScheduler';
 import editUser from '../../img/edit.svg';
 import { Link } from 'react-router-dom';
-import getSchedulerEnterprise from '../../components/services/api-scheduler/GetSchedulerEnterprise';
+import getSchedulerEnterprise from '../../services/api-scheduler/GetSchedulerEnterprise';
 
 
 function PageScheduler() {

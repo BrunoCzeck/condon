@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import getSchedulerEnterprise from '../../components/services/api-scheduler/GetSchedulerEnterprise';
-import putScheduler from '../../components/services/api-scheduler/PutScheduler';
+import getSchedulerEnterprise from '../../services/api-scheduler/GetSchedulerEnterprise';
+import putScheduler from '../../services/api-scheduler/PutScheduler';
 import { Form, InputGroup } from 'react-bootstrap';
 import {
   Container,

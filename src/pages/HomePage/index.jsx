@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import getData from '../../components/services/api-users/AuthenticationUser';
+import getData from '../../services/api-users/AuthenticationUser';
 import NavbarPriority from '../../components/NavBar/NavBarPriority';
 import NavbarNoPriority from '../../components/NavBar/NavBarNoPriority';
 import { Link } from 'react-router-dom';
-import getEnterprise from '../../components/services/api-enterprise/GetEnterprise';
-import PageError from '../../pages/Error';
+import getEnterprise from '../../services/api-enterprise/GetEnterprise';
+import PageError from '../Error';
 import {Container, Form, FormInput, Button, LoginFormContainer, NavBar, Text, Img, Linked} from './HomeStyle'
 import { StyledLink } from './HomeStyle'; // Importe o componente StyledLink do arquivo separado
 import homeIcon from '../../img/2.svg';

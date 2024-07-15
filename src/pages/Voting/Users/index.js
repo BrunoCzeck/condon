@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Form, Button } from 'react-bootstrap';
-import getEnterpriseVoting from '../../../components/services/api-voting/GetVotingEnterprise';
-import getVotingUser from '../../../components/services/api-voting/GetVotingUser';
-import postVotingUser from '../../../components/services/api-voting/PostVotingUsers'
-import sendVoting from '../../../components/services/api-voting/PostVoting'
+import getEnterpriseVoting from '../../../services/api-voting/GetVotingEnterprise';
+import getVotingUser from '../../../services/api-voting/GetVotingUser';
+import postVotingUser from '../../../services/api-voting/PostVotingUsers'
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 

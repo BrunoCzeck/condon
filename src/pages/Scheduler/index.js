@@ -1,7 +1,7 @@
 import React, { useState, useEffect  } from 'react';
 import NavbarNoPriority from '../../components/NavBar/NavBarNoPriority';
 import { CenteredCalendar, DateDisplay, Container, StyledCalendar, CustomLabel, FormInput,CustomSelect, CustomOption, Form, Button, CardContainer, CardTitle } from './SchedulerStyle';
-import getScheduler from '../../components/services/api-scheduler/GetScheduler';
+import getScheduler from '../../services/api-scheduler/GetScheduler';
 import { Link } from 'react-router-dom';
 
 const Scheduler = () => {

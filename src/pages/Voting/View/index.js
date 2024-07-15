@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import NavBarPriority from '../../../components/NavBar/NavBarPriority'
 import { Container, Div } from './AvisoStyle'
-import Chart from 'react-apexcharts'
-import getVotingUsers from '../../../components/services/api-voting/GetVotingUsers'
-import getVoting from '../../../components/services/api-voting/GetVoting'
+import ApexCharts from 'apexcharts'
+import getVotingUsers from '../../../services/api-voting/GetVotingUsers'
+import getVoting from '../../../services/api-voting/GetVoting'
 import { useParams } from "react-router-dom";
 
 const ViewVoting = () => {
@@ -130,7 +130,7 @@ const ViewVoting = () => {
       <Div>
         <div>
           <div id="chart">
-            <Chart options={parameter.options} series={parameter.series} type="pie" width={380} />
+            <ApexCharts options={parameter.options} series={parameter.series} type="pie" width={380} />
           </div>
           <div id="html-dist"></div>
         </div>

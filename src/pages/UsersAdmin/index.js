@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import getUser from '../../components/services/api-users/GetUser';
-import getUsers from '../../components/services/api-users/GetUsers';
-import deleteUser from '../../components/services/api-users/DeleteUser';
+import getUser from '../../services/api-users/GetUser';
+import getUsers from '../../services/api-users/GetUsers';
+import deleteUser from '../../services/api-users/DeleteUser';
 import NavbarPriority from '../../components/NavBar/NavBarPriority';
 import * as S from './UserTableStyles'
 import { Container, Logo, DivButton } from './UserTableStyles' 

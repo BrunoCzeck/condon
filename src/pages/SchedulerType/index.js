@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import NavbarNoPriority from '../../components/NavBar/NavBarNoPriority';
 import { CenteredCalendar, DateDisplay, Container, StyledCalendar, CustomLabel, FormInput, CustomSelect, CustomOption, Form, Button } from './SchedulerStyle';
-import getAllEnterpriseId from '../../components/services/api-scheduler/GetSchedulerEnterpriseAll';
-import getSchedulerReserve from '../../components/services/api-scheduler/GetSchedulerReserve';
-import getScheduler from '../../components/services/api-scheduler/GetScheduler';
-import sendScheduler from '../../components/services/api-scheduler/PostScheduler';
+import getSchedulerReserve from '../../services/api-scheduler/GetSchedulerReserve';
+import sendScheduler from '../../services/api-scheduler/PostScheduler';
 import { useParams } from 'react-router-dom';
-import getSchedulerEnterprise from '../../components/services/api-scheduler/GetSchedulerEnterprise';
+import getSchedulerEnterprise from '../../services/api-scheduler/GetSchedulerEnterprise';
 
 const formatDate = (date) => {
   const day = String(date.getDate()).padStart(2, '0');

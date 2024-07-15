@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import getUser from '../../components/services/api-users/GetUser';
-import getUsers from '../../components/services/api-users/GetUsers';
-import deleteUser from '../../components/services/api-users/DeleteUser';
+import getUser from '../../services/api-users/GetUser';
 import NavBarNoPriority from '../../components/NavBar/NavBarNoPriority';
 import * as S from './UserTableStyles'
 import { Container, Logo, DivButton } from './UserTableStyles' 
 import editUser from '../../img/edit.svg';
-import deletUser from '../../img/delet.svg';
+
 
 function GetUsers() {
   const [error, setError] = useState('');

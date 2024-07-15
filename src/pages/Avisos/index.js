@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Form } from 'react-bootstrap';
-import getAvisos from '../../components/services/api-mural/GetAvisos';
-import sendPosts from '../../components/services/api-mural/PostMural'
+import getAvisos from '../../services/api-mural/GetAvisos';
+import sendPosts from '../../services/api-mural/PostMural'
 import Row from 'react-bootstrap/Row';
 import {CardContainer, CardTitle, CardText, Button, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
 import NavbarPriority from '../../components/NavBar/NavBarPriority';

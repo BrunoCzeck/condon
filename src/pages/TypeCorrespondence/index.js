@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import getScheduler from '../../components/services/api-scheduler/GetScheduler';
 import { Table, Tabletbody, Tablethead, TableTh, TableTd, TableTr, Button, Header, H1, Body, ButtonEdit, Logo, ButtonModal} from './style';
 import {Form, InputGroup } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
-import sendScheduler from '../../components/services/api-scheduler/PostScheduler';
-import editUser from '../../img/edit.svg';
-import { Link } from 'react-router-dom';
-import getCorrespondenceTypeId from '../../components/services/api-correspondence/api-correspondence-type/GetCorrespondenceIdType';
-import sendDataCorrespondenceType from '../../components/services/api-correspondence/api-correspondence-type/PostCorrespondenceType';
+import getCorrespondenceTypeId from '../../services/api-correspondence/api-correspondence-type/GetCorrespondenceIdType';
+import sendDataCorrespondenceType from '../../services/api-correspondence/api-correspondence-type/PostCorrespondenceType';
 
 
 

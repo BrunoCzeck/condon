@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Form, Button, InputGroup  } from 'react-bootstrap';
-import getEnterpriseVoting from '../../components/services/api-voting/GetVotingEnterprise';
-import sendVoting from '../../components/services/api-voting/PostVoting'
-import deleteVoting from '../../components/services/api-voting/DeleteVoting'
-import updateVoting from '../../components/services/api-voting/PutVoting';
+import getEnterpriseVoting from '../../services/api-voting/GetVotingEnterprise';
+import sendVoting from '../../services/api-voting/PostVoting'
+import deleteVoting from '../../services/api-voting/DeleteVoting'
 import Row from 'react-bootstrap/Row';
 import {CardContainer, CardTitle, CardText, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
 import NavbarPriority from '../../components/NavBar/NavBarPriority';

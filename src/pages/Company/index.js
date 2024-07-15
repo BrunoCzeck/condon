@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import getDataEnterprise from '../../components/services/api-enterprise/GetEnterprises';
+import getDataEnterprise from '../../services/api-enterprise/GetEnterprises';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import sendUserDataEnterprise from '../../components/services/api-enterprise/PostEnterprise';
-import getAddress from '../../components/services/api-cep/GetViaCep';
+import sendUserDataEnterprise from '../../services/api-enterprise/PostEnterprise';
+import getAddress from '../../services/api-cep/GetViaCep';
 import Table from 'react-bootstrap/Table';
 
 function Company() {

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Form, Button } from 'react-bootstrap';
-import getMeeting from '../../components/services/api-meeting/GetMeeting';
-import sendMeeting from '../../components/services/api-meeting/PostMeeting'
+import getMeeting from '../../services/api-meeting/GetMeeting';
+import sendMeeting from '../../services/api-meeting/PostMeeting'
 import Row from 'react-bootstrap/Row';
 import {CardContainer, CardTitle, CardText, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
 import NavbarPriority from '../../components/NavBar/NavBarPriority';

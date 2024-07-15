@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import getCorrespondenceUser from '../../components/services/api-correspondence/GetCorrespondenceId';
+import getCorrespondenceUser from '../../services/api-correspondence/GetCorrespondenceId';
 import Row from 'react-bootstrap/Row';
 import {CardContainer, CardTitle, CardText, Button, Container, ButtonAddPost, Logo, ButtonModal} from './AvisoStyle'
 import NavbarPriority from '../../components/NavBar/NavBarPriority';

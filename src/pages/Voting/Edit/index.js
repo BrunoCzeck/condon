@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import getVotingUsers from '../../../components/services/api-voting/GetVotingUsers';
-import updateVoting from '../../../components/services/api-voting/PutVoting';
+import getVotingUsers from '../../../services/api-voting/GetVotingUsers';
+import updateVoting from '../../../services/api-voting/PutVoting';
 import {Container, Form, FormInput, Button, CustomLabel, CustomSubLabel, Img, Text, ContainerButton, ContainerImagem } from './AvisoStyle'
 import homeIcon from '../../../img/2.svg';
 import NavbarPriority from '../../../components/NavBar/NavBarPriority';
-import NavBarNoPriority from '../../../components/NavBar/NavBarNoPriority';
 import moment from 'moment-timezone';
 import { InputGroup  } from 'react-bootstrap';
 

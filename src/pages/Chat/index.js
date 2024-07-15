@@ -2,18 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Form, Row} from 'react-bootstrap';
-import getCorrespondence from '../../components/services/api-correspondence/GetCorrespondence';
-import getCorrespondenceTypeId from '../../components/services/api-correspondence/api-correspondence-type/GetCorrespondenceIdType';
-import getUserEnterprise from '../../components/services/api-users/GetUserEnterprise';
-import getChatEnterpriseId from '../../components/services/api-chat/GetChatEnterprise';
-import sendDataChat from '../../components/services/api-chat/PostChat';
+import getUserEnterprise from '../../services/api-users/GetUserEnterprise';
+import getChatEnterpriseId from '../../services/api-chat/GetChatEnterprise';
+import sendDataChat from '../../services/api-chat/PostChat';
 import {CardContainer, CardTitle, CardText, Button, Container, ButtonAddPost, Logo, ButtonModal, TableMr} from './AvisoStyle'
 import NavbarPriority from '../../components/NavBar/NavBarPriority';
 import NavBarNoPriority from '../../components/NavBar/NavBarNoPriority';
 import postSvg from '../../img/8.svg';
 import { Link } from 'react-router-dom';
-import getChat from '../../components/services/api-chat/GetChat';
-import putSendDataChat from '../../components/services/api-chat/PutChat';
+import getChat from '../../services/api-chat/GetChat';
+import putSendDataChat from '../../services/api-chat/PutChat';
 
 const ChatSection = ({ userId }) => {
   const [chatData, setChatData] = useState({});

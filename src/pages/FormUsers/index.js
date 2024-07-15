@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import sendUserData from '../../components/services/api-users/PostUser';
+import sendUserData from '../../services/api-users/PostUser';
 import Notification from '../../components/Notification';
-import getDataEnterprise from '../../components/services/api-enterprise/GetEnterprises';
+import getDataEnterprise from '../../services/api-enterprise/GetEnterprises';
 import {Container, Form, FormInput, Button, CustomOption, CustomSelect, Text, Img, ButtonBack} from './UsersStyle'
 import homeIcon from '../../img/2.svg';
 

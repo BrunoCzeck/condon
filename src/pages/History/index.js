@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import getSchedulerUser from '../../components/services/api-scheduler-user/GetSchedulerUser';
-import putSchedulerUser from '../../components/services/api-scheduler-user/PutSchedulerUser';
+import getSchedulerUser from '../../services/api-scheduler-user/GetSchedulerUser';
+import putSchedulerUser from '../../services/api-scheduler-user/PutSchedulerUser';
 import NavbarNoPriority from '../../components/NavBar/NavBarNoPriority';
 import * as S from './UserTableStyles'
 import { Container, Logo, DivButton } from './UserTableStyles' 

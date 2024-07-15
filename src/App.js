@@ -57,7 +57,6 @@ function App() {
           <Route path="/voting/view/:id" element={<VotingView />} />
           <Route path="/voting/users" element={<VotingUsers />} />
           <Route path="/voting/users/:id" element={<VotingUser />} />
-        
         </Routes>
       </div>
     </Router>
